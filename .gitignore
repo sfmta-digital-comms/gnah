@@ -1,0 +1,9 @@
+.DS_Store
+
+*.py
+*.csv
+*.html
+output.js
+
+*.bak
+*copy.js
