@@ -719,9 +719,9 @@ function sidebar(currentPageIndex) {
         newSection.classList.add('block');
         newSection.innerHTML = `
                 <h2 class="block-title">
-                    <a id="heading-id-12iuiu42" style="color:white;font-weight: bold; text-decoration: none;"
+                    <span id="heading-id-12iuiu42" style="color:white;font-weight: bold; text-decoration: none;"
                         href="#" onmouseover="this.style.textDecoration='none'" onmouseout="this.style.textDecoration='none'">Accessibility Strategy Needs
-                        Assessment</a><br>
+                        Assessment</span><br>
                     <span style="font-size: 16px;font-weight: bold;margin-top: 24px;display: block;">Table of Contents</span>
                 </h2>
                 <div class="view-content">
