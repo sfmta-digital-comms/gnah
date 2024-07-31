@@ -224,20 +224,6 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-service-planning-and-policy"
     },
     {
-        "name": "Paratransit Service Overview",
-        "type": "section",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-overview",
-        "section-name": "Accessibility Strategy Needs Assessment",
-        "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024"
-    },
-    {
-        "name": "Who We Serve: Rider Profiles",
-        "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-overview/who-we-serve-rider-profiles",
-        "section-name": "Paratransit Service Overview",
-        "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-overview"
-    },
-    {
         "name": "Paratransit: Mobility Management",
         "type": "section",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-mobility-management",
