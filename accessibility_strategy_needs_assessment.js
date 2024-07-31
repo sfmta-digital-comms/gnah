@@ -98,37 +98,30 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024"
     },
     {
-        "name": "2.1 Collaborative Design Solutions",
+        "name": "2.1 Accessibility-Informed Programs and Planning",
         "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/21-collaborative-design-solutions",
+        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/21-accessibility-informed-programs-and-planning",
         "section-name": "Streets: Policy and Planning",
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning"
     },
     {
-        "name": "2.2 Accessibility-Informed Programs and Planning",
+        "name": "2.2 Accessibility-Informed Data and Evaluations",
         "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/22-accessibility-informed-programs-and-planning",
+        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/22-accessibility-informed-data-and-evaluations",
         "section-name": "Streets: Policy and Planning",
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning"
     },
     {
-        "name": "2.3 Accessibility-Informed Data and Evaluations",
+        "name": "2.3 Accessible Emerging Private Passenger Services",
         "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/23-accessibility-informed-data-and-evaluations",
+        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/23-accessible-emerging-private-passenger-services",
         "section-name": "Streets: Policy and Planning",
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning"
     },
     {
-        "name": "2.4 Accessible Emerging Private Passenger Services",
+        "name": "2.4 Increased Adoption of Adaptive Cycling and Scooter Programs",
         "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/24-accessible-emerging-private-passenger-services",
-        "section-name": "Streets: Policy and Planning",
-        "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning"
-    },
-    {
-        "name": "2.5 Increased Adoption of Adaptive Cycling and Scooter Programs",
-        "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/25-increased-adoption-of-adaptive-cycling-and-scooter-programs",
+        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning/24-increased-adoption-of-adaptive-cycling-and-scooter-programs",
         "section-name": "Streets: Policy and Planning",
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/streets-policy-and-planning"
     },
