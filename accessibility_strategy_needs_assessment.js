@@ -719,8 +719,8 @@ function sidebar(currentPageIndex) {
         newSection.classList.add('block');
         newSection.innerHTML = `
                 <h2 class="block-title">
-                    <a id="heading-id-12iuiu42" style="color:white;font-weight: bold;"
-                        href="https://www.sfmta.com/accessibility-strategy-needs-assessment-2024">Accessibility Strategy Needs
+                    <a id="heading-id-12iuiu42" style="color:white;font-weight: bold; text-decoration: none;"
+                        href="#" onmouseover="this.style.textDecoration='none'" onmouseout="this.style.textDecoration='none'">Accessibility Strategy Needs
                         Assessment</a><br>
                     <span style="font-size: 16px;font-weight: bold;margin-top: 24px;display: block;">Table of Contents</span>
                 </h2>
