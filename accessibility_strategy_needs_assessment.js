@@ -748,6 +748,7 @@ function sidebar(currentPageIndex) {
         }
         #heading-id-12iuiu42:hover {
             color: white;
+            text-decoration: none;
         }
 
         #custom-row-id-2376g3279 main:first-of-type {
