@@ -399,23 +399,9 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis"
     },
     {
-        "name": "10.3 Taxi Mobile Apps",
+        "name": "10.3 Accessibility-Informed Taxi Policies",
         "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis/103-taxi-mobile-apps",
-        "section-name": "Taxis",
-        "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis"
-    },
-    {
-        "name": "10.4 Taxi Fares",
-        "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis/104-taxi-fares",
-        "section-name": "Taxis",
-        "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis"
-    },
-    {
-        "name": "10.5 Emergency Ride Home",
-        "type": "page",
-        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis/105-emergency-ride-home",
+        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis/103-accessibility-informed-taxi-policies",
         "section-name": "Taxis",
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis"
     }
