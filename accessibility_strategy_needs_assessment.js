@@ -771,18 +771,35 @@ function sidebar(currentPageIndex) {
 
 function addSurveyButton() {
     // create new const that finds element with this ID: block-pagetitle--2
-    const blockPageTitle = document.getElementById('block-pagetitle--2');
+    const content = document.getElementById('block-clients-theme-system-main--2');
+
+    // const for the article tag inside the content element
+
+    const article = content.querySelector('article');
+
+//     <div class="field-share-this">
+//             <div id="share-social-media">
+//     <strong>Share this: </strong>
+//     <a class="notactive share-facebook" href="https://www.facebook.com/sharer.php?u=https://www.sfmta.com/fbk/accessibility-strategy-needs-assessment-2024/streets-capital-projects" target="_blank">Facebook</a>
+//     <a class="notactive share-twitter" href="https://twitter.com/share?url=https://www.sfmta.com/twr/accessibility-strategy-needs-assessment-2024/streets-capital-projects" target="_blank">Twitter</a>
+//     <a class="notactive share-linkedIn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.sfmta.com/lkn/accessibility-strategy-needs-assessment-2024/streets-capital-projects" target="_blank">LinkedIn</a>
+// </div>
+
+//     </div>
+
+// const for the div with class field-share-this which is inside the article const
+    const fieldShareThis = article.querySelector('.field-share-this');
 
     // create the HTML referenced above
     // const surveyButtonHTML = `
     //     <p style="text-align:right;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Take Our Survey</a></p>
     // `;
 
-    const surveyButtonHTML = `<p style="text-align:right;"><a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a></p>`;
+    const surveyButtonHTML = `<p style="text-align:right;"><a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a style="display:none;" target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a></p>`;
 
     // insert the surveyButtonHTML directly after the blockPageTitle
 
-    blockPageTitle.insertAdjacentHTML('afterend', surveyButtonHTML);
+    fieldShareThis.insertAdjacentHTML('afterend', surveyButtonHTML);
 }
 
 // wait 1000 ms then run main function
