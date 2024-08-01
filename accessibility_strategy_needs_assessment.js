@@ -546,7 +546,6 @@ function main() {
         }
     }
 
-
     if (currentPage.type === 'page') {
         const nodeArticle = document.querySelector('.node');
         // console.log('Node Article:', nodeArticle); // Log the node article
@@ -648,6 +647,8 @@ function main() {
 
     }
 
+    // Add survey button functionality to the page regardless of the page type
+    addSurveyButton();
 }
 
 function sidebar(currentPageIndex) {
@@ -766,6 +767,26 @@ function sidebar(currentPageIndex) {
         `
     document.head.appendChild(style);
 
+}
+
+function addSurveyButton() {
+    // I want to add the following HTML to a specific location on the page.
+
+    // <p style="margin-top: 20px;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Continue to feedback form</a></p>
+
+    // create new const that finds element with this ID: block-pagetitle--2
+
+    const blockPageTitle = document.getElementById('block-pagetitle--2');
+
+    // create the HTML referenced above
+
+    const surveyButtonHTML = `
+        <p style="margin-top: 20px;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Continue to feedback form</a></p>
+    `;
+
+    // insert the surveyButtonHTML directly after the blockPageTitle
+
+    blockPageTitle.insertAdjacentHTML('afterend', surveyButtonHTML);
 }
 
 // wait 1000 ms then run main function
