@@ -790,16 +790,18 @@ function addSurveyButton() {
 // const for the div with class field-share-this which is inside the article const
     const fieldShareThis = article.querySelector('.field-share-this');
 
-    // create the HTML referenced above
-    // const surveyButtonHTML = `
-    //     <p style="text-align:right;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Take Our Survey</a></p>
-    // `;
+    // const for the linkedin share button
 
-    const surveyButtonHTML = `<p style="text-align:right;"><a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a style="display:none;" target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a></p>`;
+    const linkedInButton = fieldShareThis.querySelector('.share-linkedIn');
 
-    // insert the surveyButtonHTML directly after the blockPageTitle
+    const surveyButtonHTML = `<br /><a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a style="display:none;" target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a>`;
 
-    fieldShareThis.insertAdjacentHTML('afterend', surveyButtonHTML);
+    // insert the surveyButtonHTML directly after the linkedInButton
+
+    linkedInButton.insertAdjacentHTML('afterend', surveyButtonHTML);
+
+
+    // fieldShareThis.insertAdjacentHTML('afterend', surveyButtonHTML);
 }
 
 // wait 1000 ms then run main function
