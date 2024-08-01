@@ -778,7 +778,7 @@ function addSurveyButton() {
     //     <p style="text-align:right;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Take Our Survey</a></p>
     // `;
 
-    const surveyButtonHTML = `<p><a class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a></p>`;
+    const surveyButtonHTML = `<p style="text-align:right;"><a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a></p>`;
 
     // insert the surveyButtonHTML directly after the blockPageTitle
 
