@@ -536,6 +536,10 @@ function main() {
                     ${nextSection ? `<a href="${nextSection.url}">Next Section</a>` : ''}
                 </div>
             `;
+
+            // add the mt-4 class to the newSection
+            newSection.classList.add('mt-4');
+
             mainContentTag.appendChild(newSection);
             console.log('New section added:', newSection);
             // }
@@ -692,6 +696,8 @@ function sidebar(currentPageIndex) {
         const newSection = document.createElement('section');
         // add the class block to the newSection
         newSection.classList.add('block');
+        // add margin-right of 15px to the newSection
+        newSection.style.marginRight = '15px';
         newSection.innerHTML = `
                 <h2 class="block-title">
                     <span id="heading-id-12iuiu42" style="color:white;font-weight: bold; text-decoration: none;"
