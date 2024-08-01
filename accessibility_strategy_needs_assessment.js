@@ -794,7 +794,7 @@ function addSurveyButton() {
 
     const linkedInButton = fieldShareThis.querySelector('.share-linkedIn');
 
-    const surveyButtonHTML = `<br /><a target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a style="display:none;" target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a>`;
+    const surveyButtonHTML = `<br /><a target="_blank" class="btn-danger ml-0 mt-3" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a style="display:none;" target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a>`;
 
     // insert the surveyButtonHTML directly after the linkedInButton
 
