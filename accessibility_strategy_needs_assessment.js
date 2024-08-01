@@ -210,7 +210,7 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-service-planning-and-policy"
     },
     {
-        "name": "4.4 Accessible Communication of Service Changes and Disruptions",
+        "name": "4.4 Accessible Communication of Service Schedules and Changes",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-service-planning-and-policy/44-accessible-communication-of-service-changes-and-disruptions",
         "section-name": "Muni: Service Planning and Policy",
