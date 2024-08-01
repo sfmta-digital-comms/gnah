@@ -770,19 +770,15 @@ function sidebar(currentPageIndex) {
 }
 
 function addSurveyButton() {
-    // I want to add the following HTML to a specific location on the page.
-
-    // <p style="margin-top: 20px;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Continue to feedback form</a></p>
-
     // create new const that finds element with this ID: block-pagetitle--2
-
     const blockPageTitle = document.getElementById('block-pagetitle--2');
 
     // create the HTML referenced above
+    // const surveyButtonHTML = `
+    //     <p style="text-align:right;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Take Our Survey</a></p>
+    // `;
 
-    const surveyButtonHTML = `
-        <p style="margin-top: 20px;"><a id="largeFeedbackButton" class="btn btn-danger btn-lg text-decoration-underline" style="font-size: 22px; color:white; padding:17px 20px;  text-decoration: underline!important; text-decoration-thickness: 3px !important;" href="https://sfmta.tfaforms.net/312" name="Continue to feedback form" target="_blank">Continue to feedback form</a></p>
-    `;
+    const surveyButtonHTML = `<p><a class="btn-danger" href="https://survey.alchemer.com/s3/7690779/Accessibility-Strategy-Identified-Needs-Survey">Take our survey</a> <a class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a></p>`;
 
     // insert the surveyButtonHTML directly after the blockPageTitle
 
