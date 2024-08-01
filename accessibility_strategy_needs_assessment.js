@@ -515,23 +515,33 @@ function main() {
     // Navigation functionality
     if (currentPage.type === 'section') {
         const regionContentDiv = document.querySelector('.block-system-main-block');
-        // console.log('Region Content Div:', regionContentDiv); // Log the region content DIV
+        console.log('Region Content Div:', regionContentDiv); // Log the region content DIV
 
-        if (!regionContentDiv.querySelector('section')) {
-            // console.log('No section found on this page');
+        if (!regionContentDiv) {
+            console.log('Region content div not found');
         } else {
-            // console.log('Previous Section for Navigation:', previousSection); // Log previous section before using
-            // console.log('Next Section for Navigation:', nextSection); // Log next section before using
-            const newSection = document.createElement('section');
-            newSection.innerHTML = `
-        <div style="display: flex; justify-content: space-between;">
-            <a href="${previousSection.url}">${previousSection.type === 'home' ? 'Home' : 'Previous Section'}</a>
-            ${nextSection ? `<a href="${nextSection.url}">Next Section</a>` : ''}
-        </div>
-        `;
-            regionContentDiv.appendChild(newSection);
+            const sectionExists = regionContentDiv.querySelector('section');
+            console.log('Section exists in region content div:', sectionExists); // Log if a section exists
+
+            if (!sectionExists) {
+                console.log('No section found on this page');
+            } else {
+                console.log('Previous Section for Navigation:', previousSection); // Log previous section before using
+                console.log('Next Section for Navigation:', nextSection); // Log next section before using
+
+                const newSection = document.createElement('section');
+                newSection.innerHTML = `
+                <div style="display: flex; justify-content: space-between;">
+                    <a href="${previousSection.url}">${previousSection.type === 'home' ? 'Home' : 'Previous Section'}</a>
+                    ${nextSection ? `<a href="${nextSection.url}">Next Section</a>` : ''}
+                </div>
+            `;
+                regionContentDiv.appendChild(newSection);
+                console.log('New section added:', newSection);
+            }
         }
     }
+
 
     if (currentPage.type === 'page') {
         const nodeArticle = document.querySelector('.node');
