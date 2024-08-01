@@ -7,6 +7,13 @@ const pages = [
         "section-url": ""
     },
     {
+        "name": "Home",
+        "type": "section",
+        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024",
+        "section-name": "Home",
+        "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024"
+    },
+    {
         "name": "Executive Summary",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/executive-summary",
@@ -161,14 +168,14 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-capital-projects"
     },
     {
-        "name": "3.5 Improved Bus Stop Amenities",
+        "name": "3.5 Improved Bus Shelters",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-capital-projects/35-improved-bus-stop-amenities",
         "section-name": "Muni: Capital Projects",
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-capital-projects"
     },
     {
-        "name": "3.6 Modified Flag Stops ",
+        "name": "3.6 Modified Flag Stops",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-capital-projects/36-modified-flag-stops-",
         "section-name": "Muni: Capital Projects",
@@ -182,7 +189,7 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024"
     },
     {
-        "name": "4.1 Population-Specific Travel Patterns and Concerns ",
+        "name": "4.1 Service Planning for Accessibility",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-service-planning-and-policy/41-population-specific-travel-patterns-and-concerns-",
         "section-name": "Muni: Service Planning and Policy",
@@ -210,7 +217,7 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-service-planning-and-policy"
     },
     {
-        "name": "4.5 Continued Community Collaboration",
+        "name": "4.5 Accessible Communication of Service Schedules and Changes",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/muni-service-planning-and-policy/45-continued-community-collaboration",
         "section-name": "Muni: Service Planning and Policy",
@@ -308,7 +315,7 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-financial"
     },
     {
-        "name": "7.4 Potential Changes to Fixed Route Fare Policy",
+        "name": "7.4 Fixed Route Fare Policy Impacts on Paratransit",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-financial/74-potential-changes-to-fixed-route-fare-policy",
         "section-name": "Paratransit: Financial",
@@ -357,14 +364,14 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024"
     },
     {
-        "name": "9.1 Partnerships with Other Agencies and Providers",
+        "name": "9.1 Same Day Reservations and Chained Trips",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-performance/91-partnerships-with-other-agencies-and-providers",
         "section-name": "Paratransit: Service Performance",
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-performance"
     },
     {
-        "name": "9.2 Community Engagement",
+        "name": "9.2 Community Engagement and Partnerships",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-performance/92-community-engagement",
         "section-name": "Paratransit: Service Performance",
@@ -392,7 +399,7 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis"
     },
     {
-        "name": "10.2 Ramp Taxis",
+        "name": "10.2 Ramp Taxi Availability",
         "type": "page",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis/102-ramp-taxis",
         "section-name": "Taxis",
