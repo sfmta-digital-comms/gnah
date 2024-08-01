@@ -781,6 +781,4 @@ function addSurveyButton() {
     linkedInButton.insertAdjacentHTML('afterend', surveyButtonHTML);
 }
 
-// wait 1000 ms then run main function
-// setTimeout(main, 200);
 main();
