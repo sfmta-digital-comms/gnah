@@ -385,6 +385,13 @@ const pages = [
         "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-performance"
     },
     {
+        "name": "9.4 Regional Paratransit Connections",
+        "type": "page",
+        "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-performance/94-regional-paratransit-connections",
+        "section-name": "Paratransit: Service Performance",
+        "section-url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/paratransit-service-performance"
+    },
+    {
         "name": "10. Taxis",
         "type": "section",
         "url": "https://www.sfmta.com/accessibility-strategy-needs-assessment-2024/taxis",
