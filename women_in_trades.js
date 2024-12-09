@@ -126,20 +126,28 @@ function sidebar(currentPageIndex) {
     const asideElement = document.querySelector('aside');
 
     if (asideElement) {
-        const heading = asideElement.querySelector('h2.block-title');
-        if (heading && heading.textContent.trim().includes('Upcoming Meetings')) {
-            const parentDiv = heading.closest('div.views-element-container');
-            if (parentDiv) {
-                console.log('Parent div found:', parentDiv);
-                // remove the parent div
-                parentDiv.remove();
-            } else {
-                console.log('Parent div not found.');
+        const headings = asideElement.querySelectorAll('h2.block-title');
+        let found = false;
+
+        headings.forEach((heading) => {
+            if (heading.textContent.trim().includes('Upcoming Meetings')) {
+                const parentDiv = heading.closest('div.views-element-container');
+                if (parentDiv) {
+                    console.log('Parent div found:', parentDiv);
+                    // Remove the parent div
+                    parentDiv.remove();
+                    found = true;
+                }
             }
-        } else {
-            console.log('Heading with exact content not found.');
+        });
+
+        if (!found) {
+            console.log('No matching parent divs found for headings containing "Upcoming Meetings".');
         }
+    } else {
+        console.log('asideElement not found.');
     }
+
 
     let htmlString = '';
 
