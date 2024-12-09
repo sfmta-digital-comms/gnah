@@ -148,17 +148,18 @@ function sidebar(currentPageIndex) {
         const isCurrentPage = window.location.href.includes(page.url);
 
         htmlString += `
-    <li style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
-        <a href="${page.url}" class="teaser-link" ${isCurrentPage ? 'style="text-decoration: underline;"' : ''}>
-            <span class="image-span">
-                <img class="thumbnail img-responsive" src="${page.img}" style="width: 72px!important; height: 72px!important; object-fit: cover;" alt="${page['job-title']}: ${page['person-name']}">
-            </span>
-            <span class="teaser">
-                <span class="title-span" style="display: block;">${page['job-title']}</span>
-                <span class="text-span" style="display: block;">Meet ${page['person-name']}</span>
-            </span>
-        </a>
-    </li>`;
+            <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: .75rem; background-color: #f5f5f5; display:flex;">
+                <a href="${page.url}" class="teaser-link" ${isCurrentPage ? 'style="text-decoration: underline;"' : ''}>
+                    <span class="image-span">
+                        <img class="thumbnail img-responsive" src="${page.img}" style="width: 72px!important; height: 72px!important; object-fit: cover;" alt="${page['job-title']}: ${page['person-name']}">
+                    </span>
+                    <span class="teaser">
+                        <span class="title-span" style="display: block;">${page['job-title']}</span>
+                        <span class="text-span" style="display: block;">Meet ${page['person-name']}</span>
+                    </span>
+                </a>
+            </li>
+        `;
     });
 
     if (asideElement) {
