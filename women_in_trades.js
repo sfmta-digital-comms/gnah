@@ -124,12 +124,23 @@ function main() {
 
 function sidebar(currentPageIndex) {
     const asideElement = document.querySelector('aside');
+
     if (asideElement) {
-        const regionSidebarSecond = asideElement.querySelector('.region-sidebar-second');
-        if (regionSidebarSecond) {
-            asideElement.removeChild(regionSidebarSecond);
+        const heading = asideElement.querySelector('h2.block-title');
+        if (heading && heading.textContent.trim() === 'Upcoming Meetings & Events') {
+            const parentDiv = heading.closest('div.views-element-container');
+            if (parentDiv) {
+                console.log('Parent div found:', parentDiv);
+                // remove the parent div
+                parentDiv.remove();
+            } else {
+                console.log('Parent div not found.');
+            }
+        } else {
+            console.log('Heading with exact content not found.');
         }
     }
+    
     let htmlString = '';
 
     pages.forEach((page, index) => {
