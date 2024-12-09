@@ -106,16 +106,16 @@ function main() {
     const currentPageIndex = pages.findIndex(page => page.url === window.location.href);
 
     // Breadcrumb functionality
-    const breadcrumbOrderedList = document.querySelector('.breadcrumb');
+    // const breadcrumbOrderedList = document.querySelector('.breadcrumb');
 
-    if (currentPage.type === 'page') {
-        const newBreadcrumbItem = document.createElement('li');
-        const newHomeItem = document.createElement('li');
-        newBreadcrumbItem.innerHTML = `<a href="${currentPage['section-url']}">${currentPage['section-name']}</a>`;
-        newHomeItem.innerHTML = `<a href="https://www.sfmta.com/sfmta-career-center">SFMTA Career Center</a>`;
-        breadcrumbOrderedList.insertBefore(newBreadcrumbItem, breadcrumbOrderedList.childNodes[1]);
-        breadcrumbOrderedList.insertBefore(newHomeItem, breadcrumbOrderedList.childNodes[1]);
-    }
+    // if (currentPage.type === 'page') {
+    //     const newBreadcrumbItem = document.createElement('li');
+    //     const newHomeItem = document.createElement('li');
+    //     newBreadcrumbItem.innerHTML = `<a href="${currentPage['section-url']}">${currentPage['section-name']}</a>`;
+    //     newHomeItem.innerHTML = `<a href="https://www.sfmta.com/sfmta-career-center">SFMTA Career Center</a>`;
+    //     breadcrumbOrderedList.insertBefore(newBreadcrumbItem, breadcrumbOrderedList.childNodes[1]);
+    //     breadcrumbOrderedList.insertBefore(newHomeItem, breadcrumbOrderedList.childNodes[1]);
+    // }
 
     if (currentPage.type === 'page') {
         sidebar(currentPageIndex);
