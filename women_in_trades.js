@@ -148,18 +148,18 @@ function sidebar(currentPageIndex) {
         const isCurrentPage = window.location.href.includes(page.url);
 
         htmlString += `
-        <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: .75rem; background-color: #f5f5f5; display: flex; align-items: center; gap: 12px;">
-            <a href="${page.url}" class="teaser-link" ${isCurrentPage ? 'style="text-decoration: underline;"' : 'style="text-decoration: none; display: flex; align-items: center; gap: 12px;"'}>
-                <span class="image-span" style="flex-shrink: 0; display: block; width: 72px; height: 72px;">
-                    <img class="thumbnail img-responsive" src="${page.img}" style="width: 100%; height: 100%; object-fit: cover;" alt="${page['job-title']}: ${page['person-name']}">
-                </span>
-                <span class="teaser" style="display: flex; flex-direction: column; justify-content: center;">
-                    <span class="title-span" style="display: block; font-weight: bold; margin-bottom: 4px;">${page['job-title']}</span>
-                    <span class="text-span" style="display: block; color: #555;">Meet ${page['person-name']}</span>
-                </span>
-            </a>
-        </li>
-    `;
+            <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: .75rem; background-color: #f5f5f5; display: flex; align-items: center; gap: 12px;">
+                <a href="${page.url}" class="teaser-link" ${isCurrentPage ? 'style="text-decoration: underline; display: flex; align-items: center; gap: 12px;"' : 'style="display: flex; align-items: center; gap: 12px;"'}>
+                    <span class="image-span" style="flex-shrink: 0; display: block; width: 72px; height: 72px;">
+                        <img class="thumbnail img-responsive" src="${page.img}" style="width: 100%; height: 100%; object-fit: cover;" alt="${page['job-title']}: ${page['person-name']}">
+                    </span>
+                    <span class="teaser" style="display: flex; flex-direction: column; justify-content: center;">
+                        <span class="title-span" style="display: block; font-weight: bold; margin-bottom: 4px;">${page['job-title']}</span>
+                        <span class="text-span" style="display: block; color: #555;">Meet ${page['person-name']}</span>
+                    </span>
+                </a>
+            </li>
+        `;
     
     });
 
@@ -184,9 +184,5 @@ function sidebar(currentPageIndex) {
         asideElement.appendChild(newDiv);
     }
 }
-
-
-
-
 
 main();
