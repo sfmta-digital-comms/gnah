@@ -148,18 +148,19 @@ function sidebar(currentPageIndex) {
         const isCurrentPage = window.location.href.includes(page.url);
 
         htmlString += `
-            <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: .75rem; background-color: #f5f5f5; display:flex;">
-                <a href="${page.url}" class="teaser-link" ${isCurrentPage ? 'style="text-decoration: underline;"' : ''}>
-                    <span class="image-span">
-                        <img class="thumbnail img-responsive" src="${page.img}" style="width: 72px!important; height: 72px!important; object-fit: cover;" alt="${page['job-title']}: ${page['person-name']}">
-                    </span>
-                    <span class="teaser">
-                        <span class="title-span" style="display: block;">${page['job-title']}</span>
-                        <span class="text-span" style="display: block;">Meet ${page['person-name']}</span>
-                    </span>
-                </a>
-            </li>
-        `;
+        <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: .75rem; background-color: #f5f5f5; display: flex; align-items: center; gap: 12px;">
+            <a href="${page.url}" class="teaser-link" ${isCurrentPage ? 'style="text-decoration: underline;"' : 'style="text-decoration: none; display: flex; align-items: center; gap: 12px;"'}>
+                <span class="image-span" style="flex-shrink: 0; display: block; width: 72px; height: 72px;">
+                    <img class="thumbnail img-responsive" src="${page.img}" style="width: 100%; height: 100%; object-fit: cover;" alt="${page['job-title']}: ${page['person-name']}">
+                </span>
+                <span class="teaser" style="display: flex; flex-direction: column; justify-content: center;">
+                    <span class="title-span" style="display: block; font-weight: bold; margin-bottom: 4px;">${page['job-title']}</span>
+                    <span class="text-span" style="display: block; color: #555;">Meet ${page['person-name']}</span>
+                </span>
+            </a>
+        </li>
+    `;
+    
     });
 
     if (asideElement) {
@@ -175,7 +176,7 @@ function sidebar(currentPageIndex) {
                 <a id="heading-id-12iuiu42" style="color:white;" href="/blog/celebrate-women-trades-muni-and-learn-how-work-their-fields">Women in the Trades at Muni</a>
             </h2>
             <div class="view-content">
-                <ul style="list-style: none; padding-left:2rem;">
+                <ul style="list-style: none; padding-left: 0;">
                     ${htmlString}
                 </ul>
             </div>
