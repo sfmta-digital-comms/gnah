@@ -127,7 +127,7 @@ function sidebar(currentPageIndex) {
 
     if (asideElement) {
         const heading = asideElement.querySelector('h2.block-title');
-        if (heading && heading.textContent.trim() === 'Upcoming Meetings & Events') {
+        if (heading && heading.textContent.trim().includes('Upcoming Meetings')) {
             const parentDiv = heading.closest('div.views-element-container');
             if (parentDiv) {
                 console.log('Parent div found:', parentDiv);
@@ -150,7 +150,7 @@ function sidebar(currentPageIndex) {
         htmlString += `
             <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: .75rem; background-color: #f5f5f5; display: flex; align-items: center; gap: 12px;">
                 <a href="${page.url}" class="teaser-link" ${isCurrentPage ? 'style="text-decoration: underline; display: flex; align-items: center; gap: 12px;"' : 'style="display: flex; align-items: center; gap: 12px;"'}>
-                    <span class="image-span" style="flex-shrink: 0; display: block; width: 72px; height: 72px;">
+                    <span class="image-span" style="flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 72px; height: 72px;">
                         <img class="thumbnail img-responsive" src="${page.img}" style="width: 100%; height: 100%; object-fit: cover;" alt="${page['job-title']}: ${page['person-name']}">
                     </span>
                     <span class="teaser" style="display: flex; flex-direction: column; justify-content: center;">
@@ -160,7 +160,7 @@ function sidebar(currentPageIndex) {
                 </a>
             </li>
         `;
-    
+
     });
 
     if (asideElement) {
