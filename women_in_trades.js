@@ -140,7 +140,7 @@ function sidebar(currentPageIndex) {
             console.log('Heading with exact content not found.');
         }
     }
-    
+
     let htmlString = '';
 
     pages.forEach((page, index) => {
@@ -162,18 +162,24 @@ function sidebar(currentPageIndex) {
     });
 
     if (asideElement) {
-        const newSection = document.createElement('section');
-        newSection.innerHTML = `
-    <h2 class="block-title">
-        <a id="heading-id-12iuiu42" style="color:white;" href="/blog/celebrate-women-trades-muni-and-learn-how-work-their-fields">Women in the Trades at Muni</a>
-    </h2>
-    <div class="view-content">
-        <ul style="list-style: none; padding-left:2rem;">
-            ${htmlString}
-        </ul>
-    </div>
-`;
-        asideElement.appendChild(newSection);
+        const newDiv = document.createElement('div');
+        newDiv.style.cssText = `
+            padding: 15px;
+            background-color: #fff;
+            margin-bottom: 12px;
+        `;
+
+        newDiv.innerHTML = `
+            <h2 style="background-color: #2B73B6; color: #fff; font-size: 20px; margin-bottom: 8px; margin-top: 0px; padding: 5px 15px 5px 15px; text-shadow: none;">
+                <a id="heading-id-12iuiu42" style="color:white;" href="/blog/celebrate-women-trades-muni-and-learn-how-work-their-fields">Women in the Trades at Muni</a>
+            </h2>
+            <div class="view-content">
+                <ul style="list-style: none; padding-left:2rem;">
+                    ${htmlString}
+                </ul>
+            </div>
+        `;
+        asideElement.appendChild(newDiv);
     }
 }
 
