@@ -1,0 +1,613 @@
+{
+  "last_modified": "2025-03-18T19:43:10.955Z",
+  "posts": [
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "000",
+        "contentMap": {
+          "en": "Attention: Inbound/Outbound 24 blocked on Castro between 23rd & 22nd due to a downed power line."
+        },
+        "published": "2025-03-13T02:43:48.110Z",
+        "inReplyTo": null,
+        "tags": [],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "001",
+        "contentMap": {
+          "en": "UPDATE: Inbound/Outbound 24 routing via Noe between 23rd and 22nd."
+        },
+        "published": "2025-03-13T02:44:17.827Z",
+        "inReplyTo": "000",
+        "tags": [],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "002",
+        "contentMap": {
+          "en": "Attention: Outbound J Church delayed at Church and Clipper due to a train that has stalled on an overhead circuit breaker."
+        },
+        "published": "2025-03-13T03:01:37.468Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Hashtag",
+            "name": "JChurch"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "003",
+        "contentMap": {
+          "en": "Attention: Inbound M Ocean View blocked at Board and Orizaba by an automobile that is parked too close to the tracks."
+        },
+        "published": "2025-03-13T03:27:04.734Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Hashtag",
+            "name": "MOceanView"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "004",
+        "contentMap": {
+          "en": "Attention: Due to a PG&E power issue, L Taraval service will be partially served by bus shuttles between the zoo & West Portal. Limited train service will be in place, but the power issue prevents full rail service as it could overwhelm the reduced overhead power capacity."
+        },
+        "published": "2025-03-13T13:02:37.211Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Hashtag",
+            "name": "LTaraval"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "005",
+        "contentMap": {
+          "en": "FINAL UPDATE: Full power has been restored along Taraval. Bus shuttles will remain in place for approx. the next hour as we work to balance rail service on the L Taraval "
+        },
+        "published": "2025-03-13T16:06:57.426Z",
+        "inReplyTo": "004",
+        "tags": [
+          {
+            "type": "Hashtag",
+            "name": "LTaraval."
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "006",
+        "contentMap": {
+          "en": "Attention: Inbound F Market & Wharves delayed near Market and 1st due to a stalled streetcar."
+        },
+        "published": "2025-03-14T00:00:06.470Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Hashtag",
+            "name": "FMarket"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "007",
+        "contentMap": {
+          "en": "FINAL UPDATE: Delay at Market and 1st has cleared. Inbound F Market & Wharves resuming service."
+        },
+        "published": "2025-03-14T00:50:18.285Z",
+        "inReplyTo": "006",
+        "tags": [
+          {
+            "type": "Hashtag",
+            "name": "FMarket"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "008",
+        "contentMap": {
+          "en": "Attention: Inbound/Outbound 27 blocked on Bryant between 26th & 25th by #SFFD activity. Inbound 27 will reroute via York between 26th & 25th. Outbound 27 will reroute via Florida between 26th and 25th."
+        },
+        "published": "2025-03-14T00:39:30.907Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Hashtag",
+            "name": "SFFD"
+          },
+          {
+            "type": "Campaign",
+            "id": "701eq00000NGcIgAAL",
+            "name": "Test C Chinatown - AllTheTime (1 am - 11 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701eq00000NH7hQAAT",
+            "name": "Test Z Zoo - AllTheTime (1 am - 11 pm)"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "009",
+        "contentMap": {
+          "en": "FINAL UPDATE: Delay on Bryant between 26th and 25th is clearing. Inbound/Outbound 27 resuming regular service."
+        },
+        "published": "2025-03-14T21:21:58.872Z",
+        "inReplyTo": "008",
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701eq00000NGcIgAAL",
+            "name": "00 Test C Chinatown - AllTheTime (1 am - 11 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701eq00000NH7hQAAT",
+            "name": "00 Test Z Zoo - AllTheTime (1 am - 11 pm)"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00A",
+        "contentMap": {
+          "en": "Attention: Inbound/Outbound 12 rerouting due to reports of protest activity. Inbound via Sacramento Kearny Broadway Stockton Pacific. Outbound via Broadway Sansome Jackson Battery Clay. Will update."
+        },
+        "published": "2025-03-15T21:43:39.186Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMi7AAE",
+            "name": "12 Folsom/Pacific - Weekend"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00B",
+        "contentMap": {
+          "en": "FINAL UPDATE: Inbound/Outbound 12 cleared and resuming regular service. Expect residual delays. "
+        },
+        "published": "2025-03-15T22:11:51.252Z",
+        "inReplyTo": "00A",
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMi7AAE",
+            "name": "12 Folsom/Pacific - Weekend"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00C",
+        "contentMap": {
+          "en": "Attention: Inbound/Outbound 14, 14R delayed at Mission & 24th due to a non Muni collision. Will update. "
+        },
+        "published": "2025-03-15T22:15:32.038Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMiEAAU",
+            "name": "14 Mission - Weekend"
+          },
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMiJAAU",
+            "name": "14R Mission Rapid - Midday (9:30 am - 4 pm)"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00D",
+        "contentMap": {
+          "en": "FINAL UPDATE: Inbound/Outbound 14, 14R cleared at Mission & 24th. Regular service resuming. Expect residual delays."
+        },
+        "published": "2025-03-15T22:16:38.679Z",
+        "inReplyTo": "00C",
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMiEAAU",
+            "name": "14 Mission - Weekend"
+          },
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMiJAAU",
+            "name": "14R Mission Rapid - Midday (9:30 am - 4 pm)"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00E",
+        "contentMap": {
+          "en": "Attention: Outbound J Church delayed at Church & 18th due to a stalled train. Will update. "
+        },
+        "published": "2025-03-16T22:51:08.848Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMoMAAU",
+            "name": "J Church - Weekend"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00F",
+        "contentMap": {
+          "en": "FINAL UPDATE: Outbound J Church cleared at Church & 18th. Regular service resuming. Expect residual delays."
+        },
+        "published": "2025-03-16T22:52:22.327Z",
+        "inReplyTo": "00E",
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMoMAAU",
+            "name": "J Church - Weekend"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00G",
+        "contentMap": {
+          "en": "Attention: Powell Cable Car Line currently down due to a cable issue. Will update."
+        },
+        "published": "2025-03-16T22:55:16.168Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMpkAAE",
+            "name": "Powell/Hyde Cable Car - Weekend"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00H",
+        "contentMap": {
+          "en": "FINAL UPDATE: Powell Cable Car Line cleared and resuming regular service. Expect residual delays."
+        },
+        "published": "2025-03-16T22:56:05.296Z",
+        "inReplyTo": "00G",
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMpkAAE",
+            "name": "Powell/Hyde Cable Car - Weekend"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00I",
+        "contentMap": {
+          "en": "Attention: Inbound Hyde and Mason cable cars switching back at Washington and Powell due to a power issue along the Powell Line. See alerts here: https://www.sfmta.com/muni_alerts"
+        },
+        "published": "2025-03-16T23:00:03.232Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMpkAAE",
+            "name": "Powell/Hyde Cable Car - Weekend"
+          },
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMppAAE",
+            "name": "Powell/Mason Cable Car - Weekend"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00L",
+        "contentMap": {
+          "en": "Attention: Inbound J Church & K Ingleside delayed at Balboa Park due to a track switch issue. Crews on scene working to resolve. Will update as more information becomes available."
+        },
+        "published": "2025-03-18T17:08:56.418Z",
+        "inReplyTo": null,
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMoJAAU",
+            "name": "J Church - Midday (9:30 am - 4 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMoPAAU",
+            "name": "K Ingleside - Midday (9:30 am - 4 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701eq00000NGcIgAAL",
+            "name": "00 Test C Chinatown - AllTheTime (1 am - 11 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701eq00000NH7hQAAT",
+            "name": "00 Test Z Zoo - AllTheTime (1 am - 11 pm)"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    },
+    {
+      "actor": {
+        "type": "Service",
+        "id": "https://www.sfmta.com/muni_alerts",
+        "name": "SFMTA Muni Alerts",
+        "url": "https://www.sfmta.com/muni_alerts"
+      },
+      "object": {
+        "type": "Note",
+        "id": "00M",
+        "contentMap": {
+          "en": "FINAL UPDATE: J & K service is resuming normally out of Balboa Park."
+        },
+        "published": "2025-03-18T17:47:55.327Z",
+        "inReplyTo": "00L",
+        "tags": [
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMoJAAU",
+            "name": "J Church - Midday (9:30 am - 4 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701t0000000iMoPAAU",
+            "name": "K Ingleside - Midday (9:30 am - 4 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701eq00000NGcIgAAL",
+            "name": "00 Test C Chinatown - AllTheTime (1 am - 11 pm)"
+          },
+          {
+            "type": "Campaign",
+            "id": "701eq00000NH7hQAAT",
+            "name": "00 Test Z Zoo - AllTheTime (1 am - 11 pm)"
+          }
+        ],
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ]
+      }
+    }
+  ]
+}

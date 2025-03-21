@@ -1,0 +1,25 @@
+{
+  "post": {
+    "actor": {
+      "type": "Service",
+      "id": "https://www.sfmta.com/muni_alerts",
+      "name": "SFMTA Muni Alerts",
+      "url": "https://www.sfmta.com/muni_alerts"
+    },
+    "object": {
+      "type": "Note",
+      "id": "00V",
+      "contentMap": {
+        "en": "Testing the 48 hour count."
+      },
+      "published": "2025-03-20T21:20:28.905Z",
+      "inReplyTo": null,
+      "tags": [],
+      "to": [
+        "https://www.w3.org/ns/activitystreams#Public"
+      ]
+    }
+  },
+  "last_modified": "2025-03-20T21:20:29.892Z",
+  "postCountLastTwoDays": 7
+}

@@ -1,0 +1,46 @@
+{
+	"post": {
+		"actor": {
+			"type": "Service",
+			"id": "https://www.sfmta.com/muni_alerts",
+			"name": "SFMTA Muni Alerts",
+			"url": "https://www.sfmta.com/muni_alerts"
+		},
+		"object": {
+			"type": "Note",
+			"id": "00M",
+			"contentMap": {
+				"en": "FINAL UPDATE: J & K service is resuming normally out of Balboa Park."
+			},
+			"published": "2025-03-18T17:47:55.327Z",
+			"inReplyTo": "00L",
+			"tags": [
+				{
+					"type": "Campaign",
+					"id": "701t0000000iMoJAAU",
+					"name": "J Church - Midday (9:30 am - 4 pm)"
+				},
+				{
+					"type": "Campaign",
+					"id": "701t0000000iMoPAAU",
+					"name": "K Ingleside - Midday (9:30 am - 4 pm)"
+				},
+				{
+					"type": "Campaign",
+					"id": "701eq00000NGcIgAAL",
+					"name": "00 Test C Chinatown - AllTheTime (1 am - 11 pm)"
+				},
+				{
+					"type": "Campaign",
+					"id": "701eq00000NH7hQAAT",
+					"name": "00 Test Z Zoo - AllTheTime (1 am - 11 pm)"
+				}
+			],
+			"to": [
+				"https://www.w3.org/ns/activitystreams#Public"
+			]
+		}
+	},
+	"last_modified": "2025-03-18T17:47:58.663Z",
+	"postCountLastTwoDays": 7
+}
