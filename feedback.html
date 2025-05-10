@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .thumb-button {
+            border: none;
+            padding: 10px;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .thumb-button svg {
+            width: 24px;
+            height: 24px;
+            transition: fill 0.3s ease, stroke 0.3s ease;
+        }
+
+        .feedback-question {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .feedback-question h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-option {
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 80px;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .submit-button {
+            background-color: #2b73b6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .submit-button:hover {
+            background-color: #1e5c94;
+        }
+
+        .thank-you-message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e6f7e6;
+            border-radius: 5px;
+            border: 1px solid #c3e6c3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text-center">
+        <h2>Was this page helpful?</h2>
+        <div>
+            <button class="thumb-button up" aria-label="Helpful" onclick="toggleActive(this)">
+                <!-- SVG will be dynamically inserted here -->
+            </button>
+            <button class="thumb-button down" aria-label="Not helpful" onclick="toggleActive(this)">
+                <!-- SVG will be dynamically inserted here -->
+            </button>
+        </div>
+    </div>
+
+    <!-- Positive Feedback Form -->
+    <form id="positive-feedback" class="feedback-question" action="https://formspree.io/f/mldblnwk" method="POST">
+        <h3>What did you like about this page?</h3>
+        <div class="checkbox-option">
+            <input type="checkbox" id="easy-to-find" name="liked" value="easy-to-find">
+            <label for="easy-to-find">I found what I needed.</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="clearly-written" name="liked" value="clearly-written">
+            <label for="clearly-written">It was clearly written</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="other-positive" name="liked" value="other">
+            <label for="other-positive">Other</label>
+        </div>
+
+        <div>
+            <label for="positive-comments">Tell us more (optional):</label>
+            <textarea id="positive-comments" name="comments" maxlength="500"
+                oninput="updateCharCount(this, 'positive-char-count')"></textarea>
+            <div class="char-counter"><span id="positive-char-count">0</span>/500 characters</div>
+        </div>
+
+        <!-- Hidden field for page URL -->
+        <input type="hidden" id="positive-page-url" name="page_url">
+
+        <button type="submit" class="submit-button">Submit Feedback</button>
+    </form>
+
+    <!-- Negative Feedback Form -->
+    <form id="negative-feedback" class="feedback-question" action="https://formspree.io/f/xovdlwkq" method="POST">
+        <h3>What did you not like about this page?</h3>
+        <div class="checkbox-option">
+            <input type="checkbox" id="could-not-find" name="disliked" value="could-not-find">
+            <label for="could-not-find">I could not find what I was looking for.</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="too-complicated" name="disliked" value="too-complicated">
+            <label for="too-complicated">Too complicated / not clearly written or organized</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="other-negative" name="disliked" value="other">
+            <label for="other-negative">Other</label>
+        </div>
+
+        <div>
+            <label for="negative-comments">Tell us more (optional):</label>
+            <textarea id="negative-comments" name="comments" maxlength="500"
+                oninput="updateCharCount(this, 'negative-char-count')"></textarea>
+            <div class="char-counter"><span id="negative-char-count">0</span>/500 characters</div>
+        </div>
+
+        <!-- Hidden field for page URL -->
+        <input type="hidden" id="negative-page-url" name="page_url">
+
+        <button type="submit" class="submit-button">Submit Feedback</button>
+    </form>
+
+    <!-- Thank You Message -->
+    <div id="thank-you" class="thank-you-message">
+        <h3>Thank you for your feedback!</h3>
+        <p>Your input helps us improve our content.</p>
+    </div>
+
+    <script>
+        // Function to toggle active state
+        function toggleActive(button) {
+            // Toggle the active class for the clicked button
+            button.classList.toggle('active');
+
+            // Hide both feedback sections first
+            document.getElementById('positive-feedback').style.display = 'none';
+            document.getElementById('negative-feedback').style.display = 'none';
+            document.getElementById('thank-you').style.display = 'none';
+
+            // Change the SVG based on the active state
+            if (button.classList.contains('up')) {
+                updateSVG(button, button.classList.contains('active'));
+                document.querySelector('.down').classList.remove('active');
+                updateSVG(document.querySelector('.down'), false);
+
+                // Show positive feedback questions if active
+                if (button.classList.contains('active')) {
+                    document.getElementById('positive-feedback').style.display = 'block';
+                }
+            } else if (button.classList.contains('down')) {
+                updateSVG(button, button.classList.contains('active'));
+                document.querySelector('.up').classList.remove('active');
+                updateSVG(document.querySelector('.up'), false);
+
+                // Show negative feedback questions if active
+                if (button.classList.contains('active')) {
+                    document.getElementById('negative-feedback').style.display = 'block';
+                }
+            }
+        }
+
+        // Function to update the SVG inside the button based on active state
+        function updateSVG(button, isActive) {
+            if (isActive) {
+                // Active SVG for the "up" button
+                if (button.classList.contains('up')) {
+                    button.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#2b73b6" class="size-6">
+                            <path d="M7.493 18.5c-.425 0-.82-.236-.975-.632A7.48 7.48 0 0 1 6 15.125c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75A.75.75 0 0 1 15 2a2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23h-.777ZM2.331 10.727a11.969 11.969 0 0 0-.831 4.398 12 12 0 0 0 .52 3.507C2.28 19.482 3.105 20 3.994 20H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 0 1-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227Z" />
+                        </svg>
+                    `;
+                }
+                // Active SVG for the "down" button
+                else if (button.classList.contains('down')) {
+                    button.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#2b73b6" class="size-6">
+                            <path d="M15.73 5.5h1.035A7.465 7.465 0 0 1 18 9.625a7.465 7.465 0 0 1-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 0 1-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.499 4.499 0 0 0-.322 1.672v.633A.75.75 0 0 1 9 22a2.25 2.25 0 0 1-2.25-2.25c0-1.152.26-2.243.723-3.218.266-.558-.107-1.282-.725-1.282H3.622c-1.026 0-1.945-.694-2.054-1.715A12.137 12.137 0 0 1 1.5 12.25c0-2.848.992-5.464 2.649-7.521C4.537 4.247 5.136 4 5.754 4H9.77a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23ZM21.669 14.023c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.958 8.958 0 0 1-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227Z" />
+                        </svg>
+                    `;
+                }
+            } else {
+                // Inactive SVG for the "up" button
+                if (button.classList.contains('up')) {
+                    button.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#444" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+                        </svg>
+                    `;
+                }
+                // Inactive SVG for the "down" button
+                else if (button.classList.contains('down')) {
+                    button.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#444" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54" />
+                        </svg>
+                    `;
+                }
+            }
+        }
+
+        // Function to update character count
+        function updateCharCount(textarea, counterId) {
+            const counter = document.getElementById(counterId);
+            counter.textContent = textarea.value.length;
+        }
+
+        // Handle form submissions
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set the current URL in hidden fields
+            document.getElementById('positive-page-url').value = window.location.href;
+            document.getElementById('negative-page-url').value = window.location.href;
+
+            // Set default SVG for both buttons
+            updateSVG(document.querySelector('.up'), false);
+            updateSVG(document.querySelector('.down'), false);
+
+            // Add event listeners to the forms
+            document.getElementById('positive-feedback').addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                // Use Formspree's AJAX submission
+                const form = e.target;
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Hide the form and show thank you message
+                            form.style.display = 'none';
+                            document.getElementById('thank-you').style.display = 'block';
+                        } else {
+                            // Handle errors
+                            response.json().then(data => {
+                                if (data.errors) {
+                                    console.error(data.errors);
+                                    // You could display these errors to the user
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+
+            document.getElementById('negative-feedback').addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                // Use Formspree's AJAX submission
+                const form = e.target;
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Hide the form and show thank you message
+                            form.style.display = 'none';
+                            document.getElementById('thank-you').style.display = 'block';
+                        } else {
+                            // Handle errors
+                            response.json().then(data => {
+                                if (data.errors) {
+                                    console.error(data.errors);
+                                    // You could display these errors to the user
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
