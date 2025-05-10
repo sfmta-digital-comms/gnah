@@ -6,6 +6,7 @@
 *.csv
 *.html
 !index.html
+!feedback.html
 output.js
 
 *.bak
