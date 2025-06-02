@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #f498c0;
+      }
+
+      .cls-3 {
+        fill: #ee3325;
+      }
+
+      .cls-4 {
+        fill: #7ad0e6;
+      }
+
+      .cls-5 {
+        fill: #58b947;
+      }
+
+      .cls-6 {
+        fill: #0455a5;
+      }
+
+      .cls-7 {
+        fill: #fff;
+      }
+
+      .cls-8 {
+        fill: #603a19;
+      }
+
+      .cls-9 {
+        fill: #9f258f;
+      }
+
+      .cls-10 {
+        fill: #fdee17;
+      }
+
+      .cls-11 {
+        fill: #f57f26;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <rect class="cls-3" y="720" width="800" height="80"/>
+      <rect class="cls-11" y="640" width="800" height="80"/>
+      <rect class="cls-1" y="640" width="800" height="80"/>
+      <rect class="cls-10" y="560" width="800" height="80"/>
+      <rect class="cls-1" y="560" width="800" height="80"/>
+      <rect class="cls-5" y="480" width="800" height="80"/>
+      <rect class="cls-1" y="480" width="800" height="80"/>
+      <rect class="cls-6" y="400" width="800" height="80"/>
+      <rect class="cls-1" y="400" width="800" height="80"/>
+      <rect class="cls-9" y="320" width="800" height="80"/>
+      <rect class="cls-1" y="320" width="800" height="80"/>
+      <rect class="cls-2" y="240" width="800" height="80"/>
+      <rect class="cls-1" y="240" width="800" height="80"/>
+      <rect class="cls-4" y="160" width="800" height="80"/>
+      <rect class="cls-1" y="160" width="800" height="80"/>
+      <rect class="cls-8" y="80" width="800" height="80"/>
+      <rect width="800" height="80"/>
+    </g>
+    <g>
+      <path class="cls-7" d="M526.32,160c-62.69,0-113.68,51-113.68,113.68v176.84c0,6.96-5.67,12.63-12.63,12.63s-12.63-5.67-12.63-12.63v-176.84c0-62.68-51-113.68-113.68-113.68s-113.68,51-113.68,113.68v366.31h37.89v-328.42c0-41.79,34-75.79,75.79-75.79s75.79,34,75.79,75.79v176.84c.03,27.83,22.69,50.48,50.53,50.48s50.5-22.64,50.52-50.48v-176.84c0-41.79,34-75.79,75.79-75.79s75.79,34,75.79,75.79v328.42h37.89v-366.31c0-62.68-51-113.68-113.68-113.68Z"/>
+      <path class="cls-7" d="M526.32,261.05c-27.86,0-50.53,22.67-50.53,50.53v176.79c0,41.79-34,75.79-75.79,75.79s-75.79-34-75.79-75.79v-176.79c0-27.86-22.67-50.53-50.53-50.53s-50.53,22.67-50.53,50.53v328.42h37.89v-290.52c0-6.96,5.67-12.63,12.63-12.63s12.63,5.67,12.63,12.63v176.89c.03,62.66,51.02,113.64,113.68,113.64s113.66-50.98,113.68-113.64v-176.89c0-6.96,5.67-12.63,12.63-12.63s12.63,5.67,12.63,12.63v290.52h37.89v-328.42c0-27.86-22.67-50.53-50.53-50.53Z"/>
+    </g>
+  </g>
+</svg>
