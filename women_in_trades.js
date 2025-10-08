@@ -102,58 +102,72 @@ const pages = [
 ]
 
 function main() {
-    const currentPage = pages.find(page => page.url === window.location.href);
-    const currentPageIndex = pages.findIndex(page => page.url === window.location.href);
+    const currentUrl = window.location.href;
+    console.log('Current page URL:', currentUrl);
 
-    // Breadcrumb functionality
-    // const breadcrumbOrderedList = document.querySelector('.breadcrumb');
+    const currentPage = pages.find(page => page.url === currentUrl);
+    const currentPageIndex = pages.findIndex(page => page.url === currentUrl);
 
-    // if (currentPage.type === 'page') {
-    //     const newBreadcrumbItem = document.createElement('li');
-    //     const newHomeItem = document.createElement('li');
-    //     newBreadcrumbItem.innerHTML = `<a href="${currentPage['section-url']}">${currentPage['section-name']}</a>`;
-    //     newHomeItem.innerHTML = `<a href="https://www.sfmta.com/sfmta-career-center">SFMTA Career Center</a>`;
-    //     breadcrumbOrderedList.insertBefore(newBreadcrumbItem, breadcrumbOrderedList.childNodes[1]);
-    //     breadcrumbOrderedList.insertBefore(newHomeItem, breadcrumbOrderedList.childNodes[1]);
-    // }
+    if (!currentPage) {
+        console.warn('No exact URL match found for this page.');
+        // Try fuzzy matches to debug URL differences
+        const possibleMatches = pages.filter(p => currentUrl.includes(p.url) || p.url.includes(currentUrl));
+        console.log('Possible fuzzy matches:', possibleMatches);
+    } else {
+        console.log('Matched page:', currentPage.name, 'at index', currentPageIndex);
+    }
+
+    if (!currentPage) {
+        console.warn('Stopping: currentPage not found, skipping sidebar injection.');
+        return;
+    }
 
     if (currentPage.type === 'page') {
+        console.log('Type check passed for currentPage:', currentPage.type);
         sidebar(currentPageIndex);
+    } else {
+        console.warn('currentPage.type is not "page". It is:', currentPage.type);
     }
 }
 
 function sidebar(currentPageIndex) {
+    console.log('Building sidebar for index:', currentPageIndex);
+
     const asideElement = document.querySelector('aside');
-
-    if (asideElement) {
-        const headings = asideElement.querySelectorAll('h2.block-title');
-        let found = false;
-
-        headings.forEach((heading) => {
-            if (heading.textContent.trim().includes('Upcoming Meetings')) {
-                const parentDiv = heading.closest('div.views-element-container');
-                if (parentDiv) {
-                    console.log('Parent div found:', parentDiv);
-                    // Remove the parent div
-                    parentDiv.remove();
-                    found = true;
-                }
-            }
-        });
-
-        if (!found) {
-            console.log('No matching parent divs found for headings containing "Upcoming Meetings".');
-        }
+    if (!asideElement) {
+        console.error('asideElement not found on this page.');
+        return;
     } else {
-        console.log('asideElement not found.');
+        console.log('asideElement found:', asideElement);
     }
 
+    const headings = asideElement.querySelectorAll('h2.block-title');
+    console.log(`Found ${headings.length} h2.block-title elements in aside.`);
 
+    let found = false;
+    headings.forEach((heading, i) => {
+        console.log(`Checking heading ${i}: "${heading.textContent.trim()}"`);
+        if (heading.textContent.trim().includes('Upcoming Meetings')) {
+            const parentDiv = heading.closest('div.views-element-container');
+            if (parentDiv) {
+                console.log('Removing parent div for heading:', heading.textContent.trim(), parentDiv);
+                parentDiv.remove();
+                found = true;
+            }
+        }
+    });
+
+    if (!found) {
+        console.log('No matching "Upcoming Meetings" sections found in aside.');
+    }
+
+    // Build sidebar links
     let htmlString = '';
-
     pages.forEach((page, index) => {
-        // Check if the current page matches the page in the iteration
         const isCurrentPage = window.location.href.includes(page.url);
+        if (isCurrentPage) {
+            console.log('Marking current page active in sidebar:', page.name);
+        }
 
         htmlString += `
             <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: .75rem; background-color: #f5f5f5; display: flex; align-items: center; gap: 12px;">
@@ -168,29 +182,29 @@ function sidebar(currentPageIndex) {
                 </a>
             </li>
         `;
-
     });
 
-    if (asideElement) {
-        const newDiv = document.createElement('div');
-        newDiv.style.cssText = `
-            padding: 15px;
-            background-color: #fff;
-            margin-bottom: 12px;
-        `;
+    console.log('Generated sidebar HTML length:', htmlString.length);
 
-        newDiv.innerHTML = `
-            <h2 style="background-color: #2B73B6; color: #fff; font-size: 20px; margin-bottom: 8px; margin-top: 0px; padding: 5px 15px 5px 15px; text-shadow: none;">
-                <a id="heading-id-12iuiu42" style="color:white;" href="/blog/celebrate-women-trades-muni-and-learn-how-work-their-fields">Women in the Trades at Muni</a>
-            </h2>
-            <div class="view-content">
-                <ul style="list-style: none; padding-left: 0;">
-                    ${htmlString}
-                </ul>
-            </div>
-        `;
-        asideElement.appendChild(newDiv);
-    }
+    const newDiv = document.createElement('div');
+    newDiv.style.cssText = `
+        padding: 15px;
+        background-color: #fff;
+        margin-bottom: 12px;
+    `;
+
+    newDiv.innerHTML = `
+        <h2 style="background-color: #2B73B6; color: #fff; font-size: 20px; margin-bottom: 8px; margin-top: 0px; padding: 5px 15px 5px 15px; text-shadow: none;">
+            <a id="heading-id-12iuiu42" style="color:white;" href="/blog/celebrate-women-trades-muni-and-learn-how-work-their-fields">Women in the Trades at Muni</a>
+        </h2>
+        <div class="view-content">
+            <ul style="list-style: none; padding-left: 0;">
+                ${htmlString}
+            </ul>
+        </div>
+    `;
+    asideElement.appendChild(newDiv);
+    console.log('Sidebar appended successfully.');
 }
 
 main();
