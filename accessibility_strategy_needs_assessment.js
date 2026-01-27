@@ -421,371 +421,209 @@ const pages = [
     }
 ]
 
+const URL_BUCKET_MATCH = '/accessibility-strategy-needs-assessment-2024';
+
+function isInUrlBucket() {
+  return window.location.pathname.indexOf(URL_BUCKET_MATCH) !== -1;
+}
+
+function ensureAsideExists() {
+  if (!isInUrlBucket()) return;
+
+  let aside = document.querySelector('aside#sidebar, aside[role="complementary"], aside');
+  if (aside) return;
+
+  aside = document.createElement('aside');
+  aside.classList.add('sidebar', 'section');
+  aside.id = 'sidebar';
+  aside.setAttribute('role', 'complementary');
+
+  const rowDiv = document.body.querySelector('div.main-container > div.row');
+
+  if (rowDiv) {
+    const sectionElement = rowDiv.querySelector('section, main, .col-sm-12, .col-sm-8');
+    if (sectionElement) {
+      sectionElement.insertAdjacentElement('afterend', aside);
+      return;
+    }
+    rowDiv.appendChild(aside);
+    return;
+  }
+
+  document.body.appendChild(aside);
+}
+
 function main() {
-    const currentPage = pages.find(page => page.url === window.location.href);
-    const currentPageIndex = pages.findIndex(page => page.url === window.location.href);
+  ensureAsideExists();
 
-    const findPreviousSection = (pages, startIndex) => {
-        for (let i = startIndex - 1; i >= 0; i--) {
-            if (pages[i].type === 'section' | pages[i].type === 'home') {
-                return pages[i];
-            }
-        }
-        return null; // Return null if no section is found
-    };
-    const previousSection = findPreviousSection(pages, currentPageIndex);
+  const currentHref = window.location.href.replace(/\/$/, '');
+  const currentPage = pages.find(p => (p.url || '').replace(/\/$/, '') === currentHref);
+  const currentPageIndex = pages.findIndex(p => (p.url || '').replace(/\/$/, '') === currentHref);
 
-    const findPreviousSectionBeforeParent = (pages, startIndex) => {
-        // First, find the direct parent section or home for the startIndex
-        let directParentIndex = -1;
-        for (let i = startIndex; i >= 0; i--) {
-            if (pages[i].type === 'section' || pages[i].type === 'home') {
-                directParentIndex = i;
-                break; // Stop at the first section or home found
-            }
-        }
+  if (!currentPage || currentPageIndex < 0) return;
 
-        // Now, find the section or home before the direct parent
-        for (let i = directParentIndex - 1; i >= 0; i--) {
-            if (pages[i].type === 'section' || pages[i].type === 'home') {
-                return pages[i];
-            }
-        }
-
-        return null; // Return null if no previous section or home is found before the parent
-    };
-    const previousSectionBeforeParent = findPreviousSectionBeforeParent(pages, currentPageIndex);
-
-    const findNextSection = (pages, startIndex) => {
-        for (let i = startIndex + 1; i < pages.length; i++) {
-            if (pages[i].type === 'section') {
-                return pages[i];
-            }
-        }
-        return null; // Return null if no section is found
-    };
-    const nextSection = findNextSection(pages, currentPageIndex);
-
-    const findPreviousPage = (pages, startIndex) => {
-        for (let i = startIndex - 1; i >= 0; i--) {
-            if (pages[i].type === "section") {
-                return previousSectionBeforeParent;
-            }
-            if (pages[i].type === 'page') {
-                return pages[i];
-            }
-            return null;
-        }
-    };
-    const previousPage = findPreviousPage(pages, currentPageIndex);
-
-    const findNextPage = (pages, startIndex) => {
-        for (let i = startIndex + 1; i < pages.length; i++) {
-            if (pages[i].type === "section") {
-                return nextSection;
-            }
-            if (pages[i].type === 'page') {
-                return pages[i];
-            }
-            return null;
-        }
-    };
-    const nextPage = findNextPage(pages, currentPageIndex);
-
-    const breadcrumbOrderedList = document.querySelector('.breadcrumb nav ol');
-    if (currentPage.type === 'section') {
-        const newBreadcrumbItem = document.createElement('li');
-        newBreadcrumbItem.classList.add('breadcrumb-item');
-        newBreadcrumbItem.innerHTML = `<a href="${currentPage['section-url']}">${currentPage['section-name']}</a>`;
-        breadcrumbOrderedList.insertBefore(newBreadcrumbItem, breadcrumbOrderedList.children[1]);
+  const findPreviousSection = (pages, startIndex) => {
+    for (let i = startIndex - 1; i >= 0; i--) {
+      if (pages[i].type === 'section' || pages[i].type === 'home') {
+        return pages[i];
+      }
     }
+    return null;
+  };
+  const previousSection = findPreviousSection(pages, currentPageIndex);
 
-    if (currentPage.type === 'page') {
-        const newBreadcrumbItem = document.createElement('li');
-        const newHomeItem = document.createElement('li');
-
-        newBreadcrumbItem.classList.add('breadcrumb-item');
-        newHomeItem.classList.add('breadcrumb-item');
-
-        newBreadcrumbItem.innerHTML = `<a href="${currentPage['section-url']}">${currentPage['section-name']}</a>`;
-        newHomeItem.innerHTML = `<a href="${previousSection['section-url']}">${previousSection['section-name']}</a>`;
-
-        // Insert the newBreadcrumbItem as the second item
-        breadcrumbOrderedList.insertBefore(newBreadcrumbItem, breadcrumbOrderedList.children[1]);
-
-        // If the previousSection is valid, insert newHomeItem before newBreadcrumbItem
-        if (previousSection['section-url'].length > 0 && previousSection['section-name'].length > 0) {
-            breadcrumbOrderedList.insertBefore(newHomeItem, breadcrumbOrderedList.children[1]);
-        }
+  const findPreviousSectionBeforeParent = (pages, startIndex) => {
+    let directParentIndex = -1;
+    for (let i = startIndex; i >= 0; i--) {
+      if (pages[i].type === 'section' || pages[i].type === 'home') {
+        directParentIndex = i;
+        break;
+      }
     }
-
-    // Navigation functionality
-    if (currentPage.type === 'section') {
-        const mainContentTag = document.querySelector('#main');
-        console.log('mainContentTag found:', mainContentTag);
-
-        if (!mainContentTag) {
-            console.log('mainContentTag not found');
-        } else {
-            // const sectionExists = mainContentTag.querySelector('section');
-            // console.log('Section exists in region content div:', sectionExists); // Log if a section exists
-
-            // if (!sectionExists) {
-            // console.log('No section found on this page');
-            // } else {
-            console.log('Previous Section for Navigation:', previousSection); // Log previous section before using
-            console.log('Next Section for Navigation:', nextSection); // Log next section before using
-
-            const newSection = document.createElement('section');
-            newSection.innerHTML = `
-                <div style="display: flex; justify-content: space-between;">
-                    <a href="${previousSection.url}">${previousSection.type === 'home' ? 'Home' : 'Previous Section'}</a>
-                    ${nextSection ? `<a href="${nextSection.url}">Next Section</a>` : ''}
-                </div>
-            `;
-
-            // add the mt-4 class to the newSection
-            newSection.classList.add('mt-4');
-
-            mainContentTag.appendChild(newSection);
-            console.log('New section added:', newSection);
-            // }
-        }
+    for (let i = directParentIndex - 1; i >= 0; i--) {
+      if (pages[i].type === 'section' || pages[i].type === 'home') {
+        return pages[i];
+      }
     }
+    return null;
+  };
+  const previousSectionBeforeParent = findPreviousSectionBeforeParent(pages, currentPageIndex);
 
-    if (currentPage.type === 'page') {
-        const nodeArticle = document.querySelector('.node');
-        // console.log('Node Article:', nodeArticle); // Log the node article
-
-        if (!nodeArticle) {
-            // console.log('No article found on this page');
-        } else {
-            const newSection = document.createElement('section');
-
-            newSection.innerHTML = `
-            <div style="display: flex; justify-content: space-between;">
-                ${previousPage ? `<a href="${previousPage.url}">${previousPage.type === 'page' ? 'Previous Page' : 'Previous Section'}</a>` : '<a href="https://www.sfmta.com/accessibility-strategy-needs-assessment-2024">Back to Home</a>'}
-                ${nextPage ? `<a href="${nextPage.url}">${nextPage.type === 'page' ? 'Next Page' : 'Next Section'}</a>` : '<a href="https://www.sfmta.com/accessibility-strategy-needs-assessment-2024">Back to Home</a>'}
-            </div>
-        `;
-            nodeArticle.appendChild(newSection);
-        }
+  const findNextSection = (pages, startIndex) => {
+    for (let i = startIndex + 1; i < pages.length; i++) {
+      if (pages[i].type === 'section') return pages[i];
     }
+    return null;
+  };
+  const nextSection = findNextSection(pages, currentPageIndex);
 
-    if (currentPage.type === 'page') {
-        sidebar(currentPageIndex);
+  const findPreviousPage = (pages, startIndex) => {
+    for (let i = startIndex - 1; i >= 0; i--) {
+      if (pages[i].type === 'section') return previousSectionBeforeParent;
+      if (pages[i].type === 'page') return pages[i];
     }
+    return null;
+  };
+  const previousPage = findPreviousPage(pages, currentPageIndex);
 
-    if (currentPage.type === 'section') {
-        //
-        const asideElementStatus = document.querySelector('aside');
-        if (asideElementStatus) {
-            sidebar(currentPageIndex);
-        } else {
-            // create a const that finds a div with a class row which is inside a div with class main-container which is a direct child of the body element
-            const rowDiv = document.body.querySelector('div.main-container > div.row');
-
-            // find the section element which is the child of the row div
-            const sectionElement = rowDiv.querySelector('section');
-
-            // The section element will have a class name of col-sm-12. Remove that class and add a new one: col-sm-8
-            sectionElement.classList.remove('col-sm-12');
-            sectionElement.classList.add('col-sm-8');
-
-            let newAside = document.createElement('aside');
-            // add the class col-sm-4 to the aside element
-            newAside.classList.add('col-sm-4');
-            // add the role complementary to the aside element
-            newAside.setAttribute('role', 'complementary');
-
-            let newDivItem = document.createElement('div');
-            // add the two classes "region region-sidebar-second" to the newDivItem
-            newDivItem.classList.add('region', 'region-sidebar-second');
-
-            // set the innerHTML of the newAside equal to the newDivItem
-            // Since you want to append the div as an element and not HTML, we'll append the newDivItem as a child
-            newAside.appendChild(newDivItem);
-
-            // Add this new aside element inside the div row as a sibling to the sectionElement. The newAside comes just after the sectionElement.
-            sectionElement.insertAdjacentElement('afterend', newAside);
-
-            setTimeout(sidebar(currentPageIndex), 25);
-        }
-
+  const findNextPage = (pages, startIndex) => {
+    for (let i = startIndex + 1; i < pages.length; i++) {
+      if (pages[i].type === 'section') return nextSection;
+      if (pages[i].type === 'page') return pages[i];
     }
+    return null;
+  };
+  const nextPage = findNextPage(pages, currentPageIndex);
 
-    if (currentPage.type === 'home') {
-        //
-        const asideElementStatus = document.querySelector('aside');
-        if (asideElementStatus) {
-            console.log('On home. Aside element exists');
-            sidebar(currentPageIndex);
-        } else {
-            console.log('Aside element does not exist');
-            // create a const that finds a div with a class row which is inside a div with class main-container which is a direct child of the body element
-            const rowDiv = document.body.querySelector('div.main-container > div.row');
+  const breadcrumbOrderedList = document.querySelector('.breadcrumb nav ol');
 
-            // find the section element which is the child of the row div
-            const sectionElement = rowDiv.querySelector('section');
+  if (breadcrumbOrderedList && currentPage.type === 'section') {
+    const li = document.createElement('li');
+    li.classList.add('breadcrumb-item');
+    li.innerHTML = '<a href="' + currentPage['section-url'] + '">' + currentPage['section-name'] + '</a>';
+    breadcrumbOrderedList.insertBefore(li, breadcrumbOrderedList.children[1]);
+  }
 
-            // The section element will have a class name of col-sm-12. Remove that class and add a new one: col-sm-8
-            sectionElement.classList.remove('col-sm-12');
-            sectionElement.classList.add('col-sm-8');
+  if (breadcrumbOrderedList && currentPage.type === 'page' && previousSection) {
+    const liSection = document.createElement('li');
+    liSection.classList.add('breadcrumb-item');
+    liSection.innerHTML = '<a href="' + currentPage['section-url'] + '">' + currentPage['section-name'] + '</a>';
+    breadcrumbOrderedList.insertBefore(liSection, breadcrumbOrderedList.children[1]);
 
-            let newAside = document.createElement('aside');
-            // add the class col-sm-4 to the aside element
-            newAside.classList.add('col-sm-4');
-            // add the role complementary to the aside element
-            newAside.setAttribute('role', 'complementary');
-
-            let newDivItem = document.createElement('div');
-            // add the two classes "region region-sidebar-second" to the newDivItem
-            newDivItem.classList.add('region', 'region-sidebar-second');
-
-            // set the innerHTML of the newAside equal to the newDivItem
-            // Since you want to append the div as an element and not HTML, we'll append the newDivItem as a child
-            newAside.appendChild(newDivItem);
-
-            // Add this new aside element inside the div row as a sibling to the sectionElement. The newAside comes just after the sectionElement.
-            sectionElement.insertAdjacentElement('afterend', newAside);
-
-            setTimeout(sidebar(currentPageIndex), 25);
-        }
-
+    if (previousSection['section-name']) {
+      const liHome = document.createElement('li');
+      liHome.classList.add('breadcrumb-item');
+      liHome.innerHTML = '<a href="' + previousSection['section-url'] + '">' + previousSection['section-name'] + '</a>';
+      breadcrumbOrderedList.insertBefore(liHome, breadcrumbOrderedList.children[1]);
     }
+  }
 
-    // Add survey button functionality to the page regardless of the page type
-    addSurveyButton();
+  if (currentPage.type === 'page') {
+    sidebar(currentPageIndex);
+  }
+
+  if (currentPage.type === 'section' || currentPage.type === 'home') {
+    ensureAsideExists();
+    setTimeout(function () {
+      sidebar(currentPageIndex);
+    }, 25);
+  }
+
+  addSurveyButton();
 }
 
 function sidebar(currentPageIndex) {
-    const asideElement = document.querySelector('aside');
-    // find a child DIV of this aside element. The DIV will have a class of "region region-sidebar-second"
-    // remove it from the DOM
+  ensureAsideExists();
 
-    asideElement.classList.add('col-sm-4');
+  const asideElement = document.querySelector('aside#sidebar, aside[role="complementary"], aside');
+  if (!asideElement) return;
 
-    console.log('Aside Element:', asideElement);
-    if (asideElement) {
-        // const regionSidebarSecond = asideElement.querySelector('.region-sidebar-second');
-        // find a html element with an id that starts with "block-"
-        const blockElement = asideElement.querySelector('[id^="block-"]');
-        if (blockElement) {
-            asideElement.removeChild(blockElement);
-        }
-    }
-    let htmlString = '';
+  asideElement.classList.add('col-sm-4');
 
-    for (let i = 1; i < pages.length; i++) {
-        // create an li element
-        let li = document.createElement('li');
-        let a = document.createElement('a');
+  const blockElement = asideElement.querySelector('[id^="block-"]');
+  if (blockElement && blockElement.parentNode === asideElement) {
+    asideElement.removeChild(blockElement);
+  }
 
-        // set margin-top and margin bottom to .75rem
-        li.style.marginTop = '.75rem';
-        li.style.marginBottom = '.75rem';
+  let htmlString = '';
 
-        a.href = pages[i].url;
-        a.innerHTML = pages[i].name;
+  for (let i = 1; i < pages.length; i++) {
+    let li = document.createElement('li');
+    let a = document.createElement('a');
 
-        if (currentPageIndex === i) {
-            a.style.textDecoration = 'underline';
-        }
-        if (pages[i].type === 'page') {
-            li.style.marginLeft = '1rem';
-        }
-        // set the innerHTML of the li equal to the a element
-        li.innerHTML = a.outerHTML;
-        // add this li to htmlString
-        htmlString += li.outerHTML;
-    }
+    li.style.marginTop = '.75rem';
+    li.style.marginBottom = '.75rem';
 
-    if (asideElement) {
-        const newSection = document.createElement('section');
-        // add the class block to the newSection
-        newSection.classList.add('block');
-        // add margin-right of 15px to the newSection
-        newSection.style.marginRight = '15px';
-        newSection.innerHTML = `
-                <h2 class="block-title">
-                    <span id="heading-id-12iuiu42" style="color:white;font-weight: bold; text-decoration: none;"
-                        href="#" onmouseover="this.style.textDecoration='none'" onmouseout="this.style.textDecoration='none'">Accessibility Strategy Needs
-                        Assessment</span><br>
-                    <span style="font-size: 16px;font-weight: bold;margin-top: 24px;display: block;">Table of Contents</span>
-                </h2>
-                <div class="view-content">
-                    <ul style="list-style: none; padding-left:1rem;">
-                    <li style="margin-top: 0.75rem; margin-bottom: 0.75rem; margin-left: 0rem;display: none;">Table of Contents:</li>
-                    ${htmlString}
-                    </ul>
-                </div>
-            `;
-        asideElement.appendChild(newSection);
-    }
+    a.href = pages[i].url;
+    a.innerHTML = pages[i].name;
 
-    // create const with the direct parent of the aside element
-    const asideParent = asideElement.parentElement;
+    if (currentPageIndex === i) a.style.textDecoration = 'underline';
+    if (pages[i].type === 'page') li.style.marginLeft = '1rem';
 
-    //add an ID to it of: custom-row-id-2376g3279
-    asideParent.id = 'custom-row-id-2376g3279';
+    li.innerHTML = a.outerHTML;
+    htmlString += li.outerHTML;
+  }
 
-    //insert some custom css into a new <style> tag inside the <head> of the document
-    const style = document.createElement('style');
-    style.innerHTML = `
-        #heading-id-12iuiu42 {
-            color: white;
-        }
-        #heading-id-12iuiu42:hover {
-            color: white;
-            text-decoration: none;
-        }
+  const section = document.createElement('section');
+  section.classList.add('block');
+  section.style.marginRight = '15px';
+  section.innerHTML =
+    '<h2 class="block-title">' +
+    '<span id="heading-id-12iuiu42" style="color:white;font-weight:bold;">Accessibility Strategy Needs Assessment</span><br>' +
+    '<span style="font-size:16px;font-weight:bold;margin-top:24px;display:block;">Table of Contents</span>' +
+    '</h2>' +
+    '<div class="view-content">' +
+    '<ul style="list-style:none;padding-left:1rem;">' +
+    htmlString +
+    '</ul></div>';
 
-        #custom-row-id-2376g3279 main:first-of-type {
-            position: relative!important;
+  asideElement.appendChild(section);
 
-        }
-        #custom-row-id-2376g3279 aside:first-of-type {
-            position: relative!important;
-        }
-
-        @media (min-width: 768px) {
-
-            #custom-row-id-2376g3279 {
-                display: flex;
-                flex-wrap: wrap;
-            }
-
-            #custom-row-id-2376g3279 > .col-sm-4[role="complementary"] {
-            order: -1;
-            }
-                
-            #custom-row-id-2376g3279 > main:first-of-type {
-                width: 66.6%!important;
-            }
-            
-            #custom-row-id-2376g3279 > aside:first-of-type {
-                width: 33.3%!important;
-            }
-            
-        }
-
-        @media (min-width: 992px) {
-          }
-        `
-    document.head.appendChild(style);
-
+  const asideParent = asideElement.parentElement;
+  if (asideParent) asideParent.id = 'custom-row-id-2376g3279';
 }
 
 function addSurveyButton() {
-    const content = document.getElementById('block-clients-theme-system-main--2');
-    const article = content.querySelector('article');
-    const fieldShareThis = article.querySelector('.field-share-this');
-    const linkedInButton = fieldShareThis.querySelector('.share-linkedIn');
+  const content = document.getElementById('block-clients-theme-system-main--2');
+  if (!content) return;
 
-    const surveyButtonHTML = `<br /><a target="_blank" class="btn-danger ml-0 mt-3" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take our survey</a> <a style="display:none;" target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a>`;
+  const article = content.querySelector('article');
+  if (!article) return;
 
-    // insert the surveyButtonHTML directly after the linkedInButton
-    linkedInButton.insertAdjacentHTML('afterend', surveyButtonHTML);
+  const fieldShareThis = article.querySelector('.field-share-this');
+  if (!fieldShareThis) return;
+
+  const linkedInButton = fieldShareThis.querySelector('.share-linkedIn');
+  if (!linkedInButton) return;
+
+  const surveyHTML =
+    '<br /><a target="_blank" class="btn-danger ml-0 mt-3" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take our survey</a>';
+
+  linkedInButton.insertAdjacentHTML('afterend', surveyHTML);
 }
 
-main();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', main);
+} else {
+  main();
+}
