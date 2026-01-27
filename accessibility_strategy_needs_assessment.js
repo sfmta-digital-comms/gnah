@@ -421,155 +421,307 @@ const pages = [
     }
 ]
 
+/*
+  DEBUG VERSION (no pages array included)
+
+  What this does:
+  - If current URL is in the bucket AND there is no <aside>, create:
+      <aside class="sidebar section" id="sidebar" role="complementary"></aside>
+  - Insert it DIRECTLY AFTER: <main id="main">
+  - Adds console logs at each step so you can see what happened
+  - Prevents the "asideElement is null" crash in sidebar()
+*/
+
 const URL_BUCKET_MATCH = '/accessibility-strategy-needs-assessment-2024';
 
-function isInUrlBucket() {
-  return window.location.pathname.indexOf(URL_BUCKET_MATCH) !== -1;
+function logNav(msg, obj) {
+  try {
+    if (typeof obj !== 'undefined') {
+      console.log('[AS-Nav]', msg, obj);
+    } else {
+      console.log('[AS-Nav]', msg);
+    }
+  } catch (e) {
+    // no-op
+  }
 }
 
-function ensureAsideExists() {
-  if (!isInUrlBucket()) return;
+function isInUrlBucket() {
+  const inBucket = window.location.pathname.indexOf(URL_BUCKET_MATCH) !== -1;
+  logNav('isInUrlBucket: ' + inBucket + ' | pathname=' + window.location.pathname);
+  return inBucket;
+}
 
-  let aside = document.querySelector('aside#sidebar, aside[role="complementary"], aside');
-  if (aside) return;
+function ensureAsideExistsAfterMain() {
+  if (!isInUrlBucket()) {
+    logNav('ensureAsideExistsAfterMain: NOT in bucket, doing nothing');
+    return;
+  }
 
+  // Prefer the specific aside we create/expect
+  let aside = document.querySelector('aside#sidebar');
+  if (aside) {
+    logNav('ensureAsideExistsAfterMain: aside#sidebar already exists', aside);
+    return;
+  }
+
+  // If there is some other aside already, log it (but still create sidebar aside if missing)
+  const anyAside = document.querySelector('aside');
+  if (anyAside) {
+    logNav('ensureAsideExistsAfterMain: found an existing <aside> (not #sidebar)', anyAside);
+  } else {
+    logNav('ensureAsideExistsAfterMain: NO <aside> found on page');
+  }
+
+  const mainEl = document.getElementById('main');
+  if (!mainEl) {
+    logNav('ensureAsideExistsAfterMain: ERROR - <main id="main"> not found. Cannot insert aside in correct location.');
+    return;
+  }
+
+  // Create the requested aside
   aside = document.createElement('aside');
   aside.classList.add('sidebar', 'section');
   aside.id = 'sidebar';
   aside.setAttribute('role', 'complementary');
 
-  const rowDiv = document.body.querySelector('div.main-container > div.row');
+  // Insert directly after main#main
+  mainEl.insertAdjacentElement('afterend', aside);
+  logNav('ensureAsideExistsAfterMain: CREATED and inserted aside directly after main#main', aside);
+}
 
-  if (rowDiv) {
-    const sectionElement = rowDiv.querySelector('section, main, .col-sm-12, .col-sm-8');
-    if (sectionElement) {
-      sectionElement.insertAdjacentElement('afterend', aside);
-      return;
-    }
-    rowDiv.appendChild(aside);
-    return;
-  }
-
-  document.body.appendChild(aside);
+function normalizeUrl(u) {
+  return (u || '').replace(/\/$/, '');
 }
 
 function main() {
-  ensureAsideExists();
+  logNav('main(): start | href=' + window.location.href);
 
-  const currentHref = window.location.href.replace(/\/$/, '');
-  const currentPage = pages.find(p => (p.url || '').replace(/\/$/, '') === currentHref);
-  const currentPageIndex = pages.findIndex(p => (p.url || '').replace(/\/$/, '') === currentHref);
+  // Always try to ensure aside exists early (but only acts in bucket)
+  ensureAsideExistsAfterMain();
 
-  if (!currentPage || currentPageIndex < 0) return;
+  const currentHref = normalizeUrl(window.location.href);
 
-  const findPreviousSection = (pages, startIndex) => {
+  const currentPage = pages.find(function (p) { return normalizeUrl(p.url) === currentHref; });
+  const currentPageIndex = pages.findIndex(function (p) { return normalizeUrl(p.url) === currentHref; });
+
+  logNav('main(): currentPageIndex=' + currentPageIndex, currentPage);
+
+  if (!currentPage || currentPageIndex < 0) {
+    logNav('main(): current page NOT found in pages array. Exiting.');
+    return;
+  }
+
+  const findPreviousSection = function (pagesList, startIndex) {
     for (let i = startIndex - 1; i >= 0; i--) {
-      if (pages[i].type === 'section' || pages[i].type === 'home') {
-        return pages[i];
+      // FIX: || (not |)
+      if (pagesList[i].type === 'section' || pagesList[i].type === 'home') {
+        return pagesList[i];
       }
     }
     return null;
   };
   const previousSection = findPreviousSection(pages, currentPageIndex);
+  logNav('main(): previousSection', previousSection);
 
-  const findPreviousSectionBeforeParent = (pages, startIndex) => {
+  const findPreviousSectionBeforeParent = function (pagesList, startIndex) {
     let directParentIndex = -1;
     for (let i = startIndex; i >= 0; i--) {
-      if (pages[i].type === 'section' || pages[i].type === 'home') {
+      if (pagesList[i].type === 'section' || pagesList[i].type === 'home') {
         directParentIndex = i;
         break;
       }
     }
     for (let i = directParentIndex - 1; i >= 0; i--) {
-      if (pages[i].type === 'section' || pages[i].type === 'home') {
-        return pages[i];
+      if (pagesList[i].type === 'section' || pagesList[i].type === 'home') {
+        return pagesList[i];
       }
     }
     return null;
   };
   const previousSectionBeforeParent = findPreviousSectionBeforeParent(pages, currentPageIndex);
+  logNav('main(): previousSectionBeforeParent', previousSectionBeforeParent);
 
-  const findNextSection = (pages, startIndex) => {
-    for (let i = startIndex + 1; i < pages.length; i++) {
-      if (pages[i].type === 'section') return pages[i];
+  const findNextSection = function (pagesList, startIndex) {
+    for (let i = startIndex + 1; i < pagesList.length; i++) {
+      if (pagesList[i].type === 'section') return pagesList[i];
     }
     return null;
   };
   const nextSection = findNextSection(pages, currentPageIndex);
+  logNav('main(): nextSection', nextSection);
 
-  const findPreviousPage = (pages, startIndex) => {
+  const findPreviousPage = function (pagesList, startIndex) {
     for (let i = startIndex - 1; i >= 0; i--) {
-      if (pages[i].type === 'section') return previousSectionBeforeParent;
-      if (pages[i].type === 'page') return pages[i];
+      if (pagesList[i].type === 'section') return previousSectionBeforeParent;
+      if (pagesList[i].type === 'page') return pagesList[i];
     }
     return null;
   };
   const previousPage = findPreviousPage(pages, currentPageIndex);
+  logNav('main(): previousPage', previousPage);
 
-  const findNextPage = (pages, startIndex) => {
-    for (let i = startIndex + 1; i < pages.length; i++) {
-      if (pages[i].type === 'section') return nextSection;
-      if (pages[i].type === 'page') return pages[i];
+  const findNextPage = function (pagesList, startIndex) {
+    for (let i = startIndex + 1; i < pagesList.length; i++) {
+      if (pagesList[i].type === 'section') return nextSection;
+      if (pagesList[i].type === 'page') return pagesList[i];
     }
     return null;
   };
   const nextPage = findNextPage(pages, currentPageIndex);
+  logNav('main(): nextPage', nextPage);
 
+  // Breadcrumbs (guarded)
   const breadcrumbOrderedList = document.querySelector('.breadcrumb nav ol');
+  if (!breadcrumbOrderedList) {
+    logNav('main(): breadcrumb list not found (.breadcrumb nav ol)');
+  } else {
+    if (currentPage.type === 'section') {
+      const li = document.createElement('li');
+      li.classList.add('breadcrumb-item');
+      li.innerHTML = '<a href="' + (currentPage['section-url'] || '') + '">' + (currentPage['section-name'] || '') + '</a>';
+      if (breadcrumbOrderedList.children && breadcrumbOrderedList.children[1]) {
+        breadcrumbOrderedList.insertBefore(li, breadcrumbOrderedList.children[1]);
+      } else {
+        breadcrumbOrderedList.appendChild(li);
+      }
+      logNav('main(): breadcrumb inserted for section');
+    }
 
-  if (breadcrumbOrderedList && currentPage.type === 'section') {
-    const li = document.createElement('li');
-    li.classList.add('breadcrumb-item');
-    li.innerHTML = '<a href="' + currentPage['section-url'] + '">' + currentPage['section-name'] + '</a>';
-    breadcrumbOrderedList.insertBefore(li, breadcrumbOrderedList.children[1]);
+    if (currentPage.type === 'page') {
+      const liSection = document.createElement('li');
+      liSection.classList.add('breadcrumb-item');
+      liSection.innerHTML = '<a href="' + (currentPage['section-url'] || '') + '">' + (currentPage['section-name'] || '') + '</a>';
+
+      if (breadcrumbOrderedList.children && breadcrumbOrderedList.children[1]) {
+        breadcrumbOrderedList.insertBefore(liSection, breadcrumbOrderedList.children[1]);
+      } else {
+        breadcrumbOrderedList.appendChild(liSection);
+      }
+
+      if (previousSection && previousSection['section-url'] && previousSection['section-name']) {
+        const liHome = document.createElement('li');
+        liHome.classList.add('breadcrumb-item');
+        liHome.innerHTML = '<a href="' + previousSection['section-url'] + '">' + previousSection['section-name'] + '</a>';
+        if (breadcrumbOrderedList.children && breadcrumbOrderedList.children[1]) {
+          breadcrumbOrderedList.insertBefore(liHome, breadcrumbOrderedList.children[1]);
+        } else {
+          breadcrumbOrderedList.appendChild(liHome);
+        }
+        logNav('main(): breadcrumb inserted for page + home');
+      } else {
+        logNav('main(): previousSection missing or empty, home breadcrumb not inserted', previousSection);
+      }
+    }
   }
 
-  if (breadcrumbOrderedList && currentPage.type === 'page' && previousSection) {
-    const liSection = document.createElement('li');
-    liSection.classList.add('breadcrumb-item');
-    liSection.innerHTML = '<a href="' + currentPage['section-url'] + '">' + currentPage['section-name'] + '</a>';
-    breadcrumbOrderedList.insertBefore(liSection, breadcrumbOrderedList.children[1]);
+  // Your navigation sections (kept from original; guarded a bit)
+  if (currentPage.type === 'section') {
+    const mainContentTag = document.querySelector('#main');
+    logNav('main(): section page - mainContentTag', mainContentTag);
 
-    if (previousSection['section-name']) {
-      const liHome = document.createElement('li');
-      liHome.classList.add('breadcrumb-item');
-      liHome.innerHTML = '<a href="' + previousSection['section-url'] + '">' + previousSection['section-name'] + '</a>';
-      breadcrumbOrderedList.insertBefore(liHome, breadcrumbOrderedList.children[1]);
+    if (mainContentTag) {
+      logNav('main(): section nav links will use previousSection and nextSection', { previousSection: previousSection, nextSection: nextSection });
+
+      const newSection = document.createElement('section');
+      const prevUrl = previousSection ? previousSection.url : '';
+      const prevLabel = previousSection ? (previousSection.type === 'home' ? 'Home' : 'Previous Section') : 'Back';
+      const nextHtml = nextSection ? '<a href="' + nextSection.url + '">Next Section</a>' : '';
+
+      newSection.innerHTML =
+        '<div style="display:flex;justify-content:space-between;">' +
+          '<a href="' + prevUrl + '">' + prevLabel + '</a>' +
+          nextHtml +
+        '</div>';
+
+      newSection.classList.add('mt-4');
+      mainContentTag.appendChild(newSection);
+      logNav('main(): section nav appended');
+    } else {
+      logNav('main(): section page - #main not found, skipping section nav append');
     }
   }
 
   if (currentPage.type === 'page') {
+    const nodeArticle = document.querySelector('.node');
+    logNav('main(): page type - .node', nodeArticle);
+
+    if (nodeArticle) {
+      const newSection = document.createElement('section');
+
+      const leftHtml = previousPage
+        ? '<a href="' + previousPage.url + '">' + (previousPage.type === 'page' ? 'Previous Page' : 'Previous Section') + '</a>'
+        : '<a href="https://www.sfmta.com/accessibility-strategy-needs-assessment-2024">Back to Home</a>';
+
+      const rightHtml = nextPage
+        ? '<a href="' + nextPage.url + '">' + (nextPage.type === 'page' ? 'Next Page' : 'Next Section') + '</a>'
+        : '<a href="https://www.sfmta.com/accessibility-strategy-needs-assessment-2024">Back to Home</a>';
+
+      newSection.innerHTML =
+        '<div style="display:flex;justify-content:space-between;">' +
+          leftHtml +
+          rightHtml +
+        '</div>';
+
+      nodeArticle.appendChild(newSection);
+      logNav('main(): page nav appended');
+    } else {
+      logNav('main(): page type - .node not found, skipping page nav append');
+    }
+  }
+
+  // Sidebar build triggers
+  if (currentPage.type === 'page') {
+    logNav('main(): calling sidebar() immediately for page type');
     sidebar(currentPageIndex);
   }
 
   if (currentPage.type === 'section' || currentPage.type === 'home') {
-    ensureAsideExists();
+    // Ensure aside is present (insert after main#main if needed) then delay sidebar build slightly
+    logNav('main(): section/home - ensuring aside, then delaying sidebar() 25ms');
+    ensureAsideExistsAfterMain();
     setTimeout(function () {
       sidebar(currentPageIndex);
     }, 25);
   }
 
   addSurveyButton();
+  logNav('main(): end');
 }
 
 function sidebar(currentPageIndex) {
-  ensureAsideExists();
+  logNav('sidebar(): start | currentPageIndex=' + currentPageIndex);
 
-  const asideElement = document.querySelector('aside#sidebar, aside[role="complementary"], aside');
-  if (!asideElement) return;
+  // Make sure aside exists right before we touch it
+  ensureAsideExistsAfterMain();
 
+  // Prefer the aside we create
+  const asideElement = document.querySelector('aside#sidebar') || document.querySelector('aside[role="complementary"]') || document.querySelector('aside');
+
+  if (!asideElement) {
+    logNav('sidebar(): ERROR - asideElement still not found. Aborting sidebar build.');
+    return;
+  }
+
+  logNav('sidebar(): asideElement found', asideElement);
+
+  // Safe now
   asideElement.classList.add('col-sm-4');
 
+  // Remove existing block-* element if present
   const blockElement = asideElement.querySelector('[id^="block-"]');
   if (blockElement && blockElement.parentNode === asideElement) {
     asideElement.removeChild(blockElement);
+    logNav('sidebar(): removed existing block-* element', blockElement);
+  } else {
+    logNav('sidebar(): no removable block-* element found inside aside');
   }
 
   let htmlString = '';
 
   for (let i = 1; i < pages.length; i++) {
-    let li = document.createElement('li');
-    let a = document.createElement('a');
+    const li = document.createElement('li');
+    const a = document.createElement('a');
 
     li.style.marginTop = '.75rem';
     li.style.marginBottom = '.75rem';
@@ -577,51 +729,101 @@ function sidebar(currentPageIndex) {
     a.href = pages[i].url;
     a.innerHTML = pages[i].name;
 
-    if (currentPageIndex === i) a.style.textDecoration = 'underline';
-    if (pages[i].type === 'page') li.style.marginLeft = '1rem';
+    if (currentPageIndex === i) {
+      a.style.textDecoration = 'underline';
+    }
+    if (pages[i].type === 'page') {
+      li.style.marginLeft = '1rem';
+    }
 
     li.innerHTML = a.outerHTML;
     htmlString += li.outerHTML;
   }
 
-  const section = document.createElement('section');
-  section.classList.add('block');
-  section.style.marginRight = '15px';
-  section.innerHTML =
+  const newSection = document.createElement('section');
+  newSection.classList.add('block');
+  newSection.style.marginRight = '15px';
+
+  newSection.innerHTML =
     '<h2 class="block-title">' +
-    '<span id="heading-id-12iuiu42" style="color:white;font-weight:bold;">Accessibility Strategy Needs Assessment</span><br>' +
-    '<span style="font-size:16px;font-weight:bold;margin-top:24px;display:block;">Table of Contents</span>' +
+      '<span id="heading-id-12iuiu42" style="color:white;font-weight:bold;text-decoration:none;">Accessibility Strategy Needs Assessment</span><br>' +
+      '<span style="font-size:16px;font-weight:bold;margin-top:24px;display:block;">Table of Contents</span>' +
     '</h2>' +
     '<div class="view-content">' +
-    '<ul style="list-style:none;padding-left:1rem;">' +
-    htmlString +
-    '</ul></div>';
+      '<ul style="list-style:none;padding-left:1rem;">' +
+        '<li style="margin-top:.75rem;margin-bottom:.75rem;margin-left:0;display:none;">Table of Contents:</li>' +
+        htmlString +
+      '</ul>' +
+    '</div>';
 
-  asideElement.appendChild(section);
+  asideElement.appendChild(newSection);
+  logNav('sidebar(): appended newSection to aside');
 
   const asideParent = asideElement.parentElement;
-  if (asideParent) asideParent.id = 'custom-row-id-2376g3279';
+  if (asideParent) {
+    asideParent.id = 'custom-row-id-2376g3279';
+    logNav('sidebar(): set aside parent id custom-row-id-2376g3279', asideParent);
+  } else {
+    logNav('sidebar(): aside parentElement missing, cannot set id');
+  }
+
+  // CSS injection (kept from your original, but guarded)
+  const style = document.createElement('style');
+  style.innerHTML =
+    '#heading-id-12iuiu42{color:white;}' +
+    '#heading-id-12iuiu42:hover{color:white;text-decoration:none;}' +
+    '#custom-row-id-2376g3279 main:first-of-type{position:relative!important;}' +
+    '#custom-row-id-2376g3279 aside:first-of-type{position:relative!important;}' +
+    '@media (min-width:768px){' +
+      '#custom-row-id-2376g3279{display:flex;flex-wrap:wrap;}' +
+      '#custom-row-id-2376g3279 > .col-sm-4[role="complementary"]{order:-1;}' +
+      '#custom-row-id-2376g3279 > main:first-of-type{width:66.6%!important;}' +
+      '#custom-row-id-2376g3279 > aside:first-of-type{width:33.3%!important;}' +
+    '}';
+
+  document.head.appendChild(style);
+  logNav('sidebar(): injected style tag');
+
+  logNav('sidebar(): end');
 }
 
 function addSurveyButton() {
+  logNav('addSurveyButton(): start');
+
   const content = document.getElementById('block-clients-theme-system-main--2');
-  if (!content) return;
+  if (!content) {
+    logNav('addSurveyButton(): content block not found');
+    return;
+  }
 
   const article = content.querySelector('article');
-  if (!article) return;
+  if (!article) {
+    logNav('addSurveyButton(): article not found');
+    return;
+  }
 
   const fieldShareThis = article.querySelector('.field-share-this');
-  if (!fieldShareThis) return;
+  if (!fieldShareThis) {
+    logNav('addSurveyButton(): .field-share-this not found');
+    return;
+  }
 
   const linkedInButton = fieldShareThis.querySelector('.share-linkedIn');
-  if (!linkedInButton) return;
+  if (!linkedInButton) {
+    logNav('addSurveyButton(): .share-linkedIn not found');
+    return;
+  }
 
-  const surveyHTML =
-    '<br /><a target="_blank" class="btn-danger ml-0 mt-3" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take our survey</a>';
+  const surveyButtonHTML =
+    '<br />' +
+    '<a target="_blank" class="btn-danger ml-0 mt-3" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take our survey</a>' +
+    ' <a style="display:none;" target="_blank" class="btn-danger" href="https://survey.alchemer.com/s3/7698449/Accessibility-Strategy-Identified-Needs-Survey-Screen-Reader-Accessible-Version">Take Our Survey - Screen Reader Friendly Version</a>';
 
-  linkedInButton.insertAdjacentHTML('afterend', surveyHTML);
+  linkedInButton.insertAdjacentHTML('afterend', surveyButtonHTML);
+  logNav('addSurveyButton(): inserted survey button(s)');
 }
 
+// Run after DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', main);
 } else {
