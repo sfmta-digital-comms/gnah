@@ -4,7 +4,7 @@
   <script src="//sfmta-digital-comms.github.io/gnah/form-assembly.js"></script>
 */
 
-setTimeout(function () {
+setTimeout(() => {
   console.log('500ms delay complete, starting FormAssembly script')
   findFormAssemblyAnchor()
 }, 500)
@@ -34,31 +34,18 @@ function findFormAssemblyAnchor() {
   console.log('Detected mode:', parsed.mode)
   console.log('Detected button copy:', parsed.buttonCopy)
 
-  // Always create the fallback button (even for embedOnly)
-  const buttonHtml = buildButtonHtml({
-    originalId: originalId,
-    formNumber: parsed.number,
-    buttonCopy: parsed.buttonCopy
-  })
-
-  insertHtmlAfterElement(anchor, buttonHtml)
-
-  console.log('Handing off to embed/link logic')
   passToNextFunction(parsed.number, parsed.mode, parsed.buttonCopy, anchor, originalId)
 }
 
 function parseFormAssemblyId(fullId) {
   const baseMatch = fullId.match(/^FormAssemblyForm(\d+)(.*)$/)
-
-  if (!baseMatch) {
-    return null
-  }
+  if (!baseMatch) return null
 
   const number = baseMatch[1]
   const suffix = baseMatch[2] || ''
 
   if (!suffix) {
-    return { number: number, mode: 'standard', buttonCopy: null }
+    return { number, mode: 'standard', buttonCopy: null }
   }
 
   const raw = suffix.replace(/^-/, '')
@@ -74,37 +61,111 @@ function parseFormAssemblyId(fullId) {
     }
   }
 
-  const copyCandidates = tokens.filter(function (t) {
-    return !modeTokens.has(t)
-  })
-
+  const copyCandidates = tokens.filter(t => !modeTokens.has(t))
   const buttonCopy = copyCandidates.length ? copyCandidates[0] : null
 
-  // embedOnly never uses button copy
   if (mode === 'embedOnly') {
-    return { number: number, mode: mode, buttonCopy: null }
+    return { number, mode, buttonCopy: null }
   }
 
-  return { number: number, mode: mode, buttonCopy: buttonCopy }
+  return { number, mode, buttonCopy }
 }
 
-function buildButtonHtml(options) {
-  const originalId = options.originalId
+function passToNextFunction(formIdNumber, mode, buttonCopy, anchorEl, originalId) {
+  console.log('passToNextFunction called with number:', formIdNumber)
+  console.log('passToNextFunction called with mode:', mode)
+
+  if (buttonCopy != null) {
+    console.log('passToNextFunction called with button copy:', buttonCopy)
+  } else {
+    console.log('passToNextFunction called with no button copy')
+  }
+
+  const shouldLinkOnly = mode === 'linkOnly'
+  const shouldEmbed = mode === 'standard' || mode === 'embedOnly'
+  const allowFallbackToButton = mode === 'standard' || mode === 'embedOnly'
+  // ^ change embedOnly to false here if you NEVER want fallback for embedOnly
+
+  if (shouldLinkOnly) {
+    console.log('Rendering LINK ONLY')
+    renderButtonOnly(anchorEl, originalId, formIdNumber, buttonCopy)
+    return
+  }
+
+  if (shouldEmbed) {
+    console.log('Rendering EMBED (fallback allowed:', allowFallbackToButton, ')')
+    renderEmbedWithFallback(anchorEl, originalId, formIdNumber, buttonCopy, allowFallbackToButton)
+    return
+  }
+
+  console.warn('Unknown mode; defaulting to LINK ONLY')
+  renderButtonOnly(anchorEl, originalId, formIdNumber, buttonCopy)
+}
+
+/* ===========================
+   Rendering helpers
+=========================== */
+
+function renderButtonOnly(anchorEl, originalId, formNumber, buttonCopy) {
+  removeEmbedContainer()
+  removePublishScript(formNumber)
+  removeGeneratedButton(originalId)
+
+  const buttonHtml = buildButtonHtml({
+    originalId,
+    formNumber,
+    buttonCopy
+  })
+
+  insertHtmlAfterElement(anchorEl, buttonHtml)
+}
+
+function renderEmbedWithFallback(anchorEl, originalId, formNumber, buttonCopy, allowFallback) {
+  removeGeneratedButton(originalId)
+
+  ensureEmbedContainerExists(anchorEl, containerId => {
+    console.log('Embed container confirmed:', containerId)
+
+    injectPublishScriptAtEndOfBody(formNumber, containerId, result => {
+      if (result?.ok) {
+        validateEmbedRendered(containerId, renderedOk => {
+          if (renderedOk) {
+            console.log('Embed rendered successfully')
+            return
+          }
+
+          console.warn('Embed did not render in time')
+          if (allowFallback) {
+            renderButtonOnly(anchorEl, originalId, formNumber, buttonCopy)
+          }
+        })
+        return
+      }
+
+      console.warn('Publish script failed')
+      if (allowFallback) {
+        renderButtonOnly(anchorEl, originalId, formNumber, buttonCopy)
+      }
+    })
+  })
+}
+
+/* ===========================
+   Button utilities
+=========================== */
+
+function buildButtonHtml({ originalId, formNumber, buttonCopy }) {
   const generatedId = 'Gen-' + originalId
-  const formNumber = options.formNumber
-  const rawCopy = options.buttonCopy
-
-  const buttonCopy = rawCopy ? rawCopy : 'Continue'
-  const buttonText = buttonCopy + ' Online'
-
+  const finalCopy = buttonCopy || 'Continue'
+  const buttonText = finalCopy + ' Online'
   const href = 'https://sfmta.tfaforms.net/' + formNumber
-  const nameAttr = 'Continue to ' + buttonCopy + ' online'
+  const nameAttr = 'Continue to ' + finalCopy + ' online'
 
   return (
     '<p style="margin-top: 20px;">' +
       '<a id="' + escapeHtmlAttribute(generatedId) + '" ' +
         'class="btn btn-danger btn-lg text-decoration-underline" ' +
-        'style="font-size: 22px; color:white; padding:17px 20px; text-decoration: underline!important; text-decoration-thickness: 3px !important;" ' +
+        'style="font-size:22px;color:white;padding:17px 20px;text-decoration:underline!important;text-decoration-thickness:3px!important;" ' +
         'href="' + escapeHtmlAttribute(href) + '" ' +
         'name="' + escapeHtmlAttribute(nameAttr) + '" ' +
         'target="_blank">' +
@@ -116,6 +177,19 @@ function buildButtonHtml(options) {
 
 function insertHtmlAfterElement(element, html) {
   element.insertAdjacentHTML('afterend', html)
+}
+
+function removeGeneratedButton(originalId) {
+  const generatedId = 'Gen-' + originalId
+  const btn = document.getElementById(generatedId)
+  if (!btn) return
+
+  const wrapper = btn.closest ? btn.closest('p') : null
+  if (wrapper?.parentNode) {
+    wrapper.parentNode.removeChild(wrapper)
+  } else if (btn.parentNode) {
+    btn.parentNode.removeChild(btn)
+  }
 }
 
 function escapeHtmlAttribute(value) {
@@ -133,101 +207,56 @@ function escapeHtmlText(value) {
     .replace(/>/g, '&gt;')
 }
 
-function passToNextFunction(formIdNumber, mode, buttonCopy, anchorEl, originalId) {
-  console.log('passToNextFunction called with number:', formIdNumber)
-  console.log('passToNextFunction called with mode:', mode)
+/* ===========================
+   Embed utilities
+=========================== */
 
-  if (buttonCopy != null) {
-    console.log('passToNextFunction called with button copy:', buttonCopy)
-  } else {
-    console.log('passToNextFunction called with no button copy')
-  }
-
-  if (mode === 'linkOnly') {
-    console.log('Mode is linkOnly — embed will not be attempted')
-    return
-  }
-
-  console.log('Mode is', mode, '— attempting embed')
-
-  ensureEmbedContainerExists(anchorEl, function (containerId) {
-    console.log('Embed container confirmed in DOM:', '#' + containerId)
-    injectPublishScriptAtEndOfBody(formIdNumber, containerId, originalId)
-  })
-}
-
-/*
-  Step 1: Create <div id="fa-form"></div> immediately after the anchor tag.
-  Step 2: Confirm it exists, then proceed.
-*/
 function ensureEmbedContainerExists(anchorEl, onReady) {
   const containerId = 'fa-form'
-
-  if (!anchorEl) {
-    console.warn('ensureEmbedContainerExists: anchor element is missing')
-    return
-  }
 
   let container = document.getElementById(containerId)
 
   if (!container) {
-    console.log('Creating embed container:', '<div id="' + containerId + '"></div>')
-    const div = document.createElement('div')
-    div.id = containerId
-    anchorEl.insertAdjacentElement('afterend', div)
-    container = div
+    container = document.createElement('div')
+    container.id = containerId
+    anchorEl.insertAdjacentElement('afterend', container)
+  }
+
+  if (document.getElementById(containerId)) {
+    onReady(containerId)
   } else {
-    console.log('Embed container already exists:', '#' + containerId)
+    setTimeout(() => ensureEmbedContainerExists(anchorEl, onReady), 50)
   }
-
-  // Confirm it exists in the DOM
-  const confirmed = document.getElementById(containerId)
-  if (!confirmed) {
-    console.warn('Embed container was created but not found after insertion. Retrying...')
-    setTimeout(function () {
-      ensureEmbedContainerExists(anchorEl, onReady)
-    }, 50)
-    return
-  }
-
-  console.log('Embed container exists and is ready:', confirmed)
-  if (typeof onReady === 'function') onReady(containerId)
 }
 
-/*
-  Step 3: Add the publish script at the end of BODY.
-*/
-function injectPublishScriptAtEndOfBody(formIdNumber, targetId, originalId) {
-  const body = document.body || document.getElementsByTagName('body')[0]
+function removeEmbedContainer() {
+  const container = document.getElementById('fa-form')
+  if (container?.parentNode) {
+    container.parentNode.removeChild(container)
+  }
+}
 
+/* ===========================
+   Publish script handling
+=========================== */
+
+function injectPublishScriptAtEndOfBody(formIdNumber, targetId, done) {
+  const body = document.body
   if (!body) {
-    console.warn('No BODY element found; cannot inject FormAssembly publish script')
+    done?.({ ok: false })
     return
   }
 
   const src = 'https://sfmta.tfaforms.net/publish/' + formIdNumber
 
-  // Avoid duplicate injection (same form + same target)
   const existing = document.querySelector(
     'script[data-fa-publish="true"][src="' + src + '"][data-qp-target-id="' + targetId + '"]'
   )
 
   if (existing) {
-    console.log('Publish script already present, not injecting again:', src)
+    done?.({ ok: true })
     return
   }
-
-  // Confirm target exists before injecting
-  const target = document.getElementById(targetId)
-  if (!target) {
-    console.warn('Target container #' + targetId + ' not found yet. Retrying inject...')
-    setTimeout(function () {
-      injectPublishScriptAtEndOfBody(formIdNumber, targetId, originalId)
-    }, 100)
-    return
-  }
-
-  console.log('Injecting FormAssembly publish script at end of BODY:', src)
 
   const s = document.createElement('script')
   s.setAttribute('data-fa-publish', 'true')
@@ -235,25 +264,76 @@ function injectPublishScriptAtEndOfBody(formIdNumber, targetId, originalId) {
   s.setAttribute('data-qp-target-id', targetId)
   s.defer = true
 
-  s.onload = function () {
-    console.log('FormAssembly publish script loaded:', src)
+  let completed = false
+  const finishOnce = payload => {
+    if (completed) return
+    completed = true
+    done?.(payload)
+  }
 
-    // If publish script attaches its work to DOMContentLoaded and we're already past it,
-    // manually call the entry point if it exists.
-    const domAlreadyReady = document.readyState !== 'loading'
-    if (domAlreadyReady && typeof window.loadFormAssemblyFormHeadAndBodyContents === 'function') {
-      console.log('DOMContentLoaded already fired; calling loadFormAssemblyFormHeadAndBodyContents() manually')
+  const hardTimer = setTimeout(() => {
+    finishOnce({ ok: false })
+  }, 12000)
+
+  s.onload = () => {
+    clearTimeout(hardTimer)
+
+    if (document.readyState !== 'loading' &&
+        typeof window.loadFormAssemblyFormHeadAndBodyContents === 'function') {
       try {
         window.loadFormAssemblyFormHeadAndBodyContents()
       } catch (e) {
-        console.warn('Manual Quick Publish init failed:', e)
+        console.warn('Manual FA init failed', e)
       }
     }
+
+    finishOnce({ ok: true })
   }
 
-  s.onerror = function () {
-    console.error('FormAssembly publish script failed to load:', src)
+  s.onerror = () => {
+    clearTimeout(hardTimer)
+    finishOnce({ ok: false })
   }
 
   body.appendChild(s)
+}
+
+function removePublishScript(formIdNumber) {
+  const src = 'https://sfmta.tfaforms.net/publish/' + formIdNumber
+  document
+    .querySelectorAll('script[data-fa-publish="true"][src="' + src + '"]')
+    .forEach(s => s.parentNode?.removeChild(s))
+}
+
+/* ===========================
+   Embed render validation
+=========================== */
+
+function validateEmbedRendered(containerId, callback) {
+  const maxWaitMs = 6000
+  const pollEveryMs = 150
+  let waited = 0
+
+  const tick = () => {
+    const container = document.getElementById(containerId)
+    if (
+      container?.querySelector('form') ||
+      container?.querySelector('#tfaContent') ||
+      container?.querySelector('.wFormContainer') ||
+      container?.querySelector('.wForm')
+    ) {
+      callback(true)
+      return
+    }
+
+    waited += pollEveryMs
+    if (waited >= maxWaitMs) {
+      callback(false)
+      return
+    }
+
+    setTimeout(tick, pollEveryMs)
+  }
+
+  tick()
 }
