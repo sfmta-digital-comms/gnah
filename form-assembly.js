@@ -137,7 +137,7 @@ function passToNextFunction(formIdNumber, mode, buttonCopy, anchorEl, originalId
   console.log('passToNextFunction called with number:', formIdNumber)
   console.log('passToNextFunction called with mode:', mode)
 
-  if (typeof buttonCopy !== 'undefined') {
+  if (buttonCopy != null) {
     console.log('passToNextFunction called with button copy:', buttonCopy)
   } else {
     console.log('passToNextFunction called with no button copy')
@@ -196,10 +196,6 @@ function ensureEmbedContainerExists(anchorEl, onReady) {
 
 /*
   Step 3: Add the publish script at the end of BODY.
-  Best practices:
-  - Only inject once per FORM ID + target combo
-  - Append to document.body (end of BODY)
-  - Use defer, and keep it async-safe
 */
 function injectPublishScriptAtEndOfBody(formIdNumber, targetId, originalId) {
   const body = document.body || document.getElementsByTagName('body')[0]
@@ -239,10 +235,22 @@ function injectPublishScriptAtEndOfBody(formIdNumber, targetId, originalId) {
   s.setAttribute('data-qp-target-id', targetId)
   s.defer = true
 
-  // Optional logging hooks
   s.onload = function () {
     console.log('FormAssembly publish script loaded:', src)
+
+    // If publish script attaches its work to DOMContentLoaded and we're already past it,
+    // manually call the entry point if it exists.
+    const domAlreadyReady = document.readyState !== 'loading'
+    if (domAlreadyReady && typeof window.loadFormAssemblyFormHeadAndBodyContents === 'function') {
+      console.log('DOMContentLoaded already fired; calling loadFormAssemblyFormHeadAndBodyContents() manually')
+      try {
+        window.loadFormAssemblyFormHeadAndBodyContents()
+      } catch (e) {
+        console.warn('Manual Quick Publish init failed:', e)
+      }
+    }
   }
+
   s.onerror = function () {
     console.error('FormAssembly publish script failed to load:', src)
   }
