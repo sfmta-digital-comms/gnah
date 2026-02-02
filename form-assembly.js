@@ -12,29 +12,41 @@ setTimeout(() => {
 function findFormAssemblyAnchor() {
   console.log('Searching for A tag with ID starting with FormAssemblyForm')
 
-  const anchor = document.querySelector('a[id^="FormAssemblyForm"]')
+  const anchors = Array.from(document.querySelectorAll('a[id^="FormAssemblyForm"]'))
 
-  if (!anchor) {
+  if (!anchors.length) {
     console.warn('No A tag found with ID starting with FormAssemblyForm')
     return
   }
 
-  const originalId = anchor.getAttribute('id')
-  console.log('Matching A tag found:', anchor)
-  console.log('Full ID value:', originalId)
+  console.log('Matching A tags found:', anchors.length)
 
-  const parsed = parseFormAssemblyId(originalId)
+  for (const anchor of anchors) {
+    const originalId = anchor.getAttribute('id')
+    console.log('Matching A tag found:', anchor)
+    console.log('Full ID value:', originalId)
 
-  if (!parsed) {
-    console.warn('Found a FormAssemblyForm anchor, but ID did not match expected patterns:', originalId)
-    return
+    const parsed = parseFormAssemblyId(originalId)
+
+    if (!parsed) {
+      console.warn(
+        'Found a FormAssemblyForm anchor, but ID did not match expected patterns:',
+        originalId
+      )
+      continue
+    }
+
+    console.log('Extracted number:', parsed.number)
+    console.log('Detected mode:', parsed.mode)
+    console.log('Detected button copy:', parsed.buttonCopy)
+
+    passToNextFunction(parsed.number, parsed.mode, parsed.buttonCopy, anchor, originalId)
   }
+}
 
-  console.log('Extracted number:', parsed.number)
-  console.log('Detected mode:', parsed.mode)
-  console.log('Detected button copy:', parsed.buttonCopy)
-
-  passToNextFunction(parsed.number, parsed.mode, parsed.buttonCopy, anchor, originalId)
+function makeEmbedContainerId(originalId) {
+  const safe = String(originalId).replace(/[^A-Za-z0-9_\-:.]/g, '_')
+  return 'fa-form-' + safe
 }
 
 function parseFormAssemblyId(fullId) {
@@ -107,8 +119,9 @@ function passToNextFunction(formIdNumber, mode, buttonCopy, anchorEl, originalId
 =========================== */
 
 function renderButtonOnly(anchorEl, originalId, formNumber, buttonCopy) {
-  removeEmbedContainer()
-  removePublishScript(formNumber)
+  const containerId = makeEmbedContainerId(originalId)
+  removeEmbedContainer(containerId)
+  removePublishScript(formNumber, containerId)
   removeGeneratedButton(originalId)
 
   const buttonHtml = buildButtonHtml({
@@ -123,7 +136,7 @@ function renderButtonOnly(anchorEl, originalId, formNumber, buttonCopy) {
 function renderEmbedWithFallback(anchorEl, originalId, formNumber, buttonCopy, allowFallback) {
   removeGeneratedButton(originalId)
 
-  ensureEmbedContainerExists(anchorEl, containerId => {
+  ensureEmbedContainerExists(anchorEl, originalId, containerId => {
     console.log('Embed container confirmed:', containerId)
 
     injectPublishScriptAtEndOfBody(formNumber, containerId, result => {
@@ -211,8 +224,8 @@ function escapeHtmlText(value) {
    Embed utilities
 =========================== */
 
-function ensureEmbedContainerExists(anchorEl, onReady) {
-  const containerId = 'fa-form'
+function ensureEmbedContainerExists(anchorEl, originalId, onReady) {
+  const containerId = makeEmbedContainerId(originalId)
 
   let container = document.getElementById(containerId)
 
@@ -225,12 +238,12 @@ function ensureEmbedContainerExists(anchorEl, onReady) {
   if (document.getElementById(containerId)) {
     onReady(containerId)
   } else {
-    setTimeout(() => ensureEmbedContainerExists(anchorEl, onReady), 50)
+    setTimeout(() => ensureEmbedContainerExists(anchorEl, originalId, onReady), 50)
   }
 }
 
-function removeEmbedContainer() {
-  const container = document.getElementById('fa-form')
+function removeEmbedContainer(containerId) {
+  const container = document.getElementById(containerId)
   if (container?.parentNode) {
     container.parentNode.removeChild(container)
   }
@@ -298,11 +311,12 @@ function injectPublishScriptAtEndOfBody(formIdNumber, targetId, done) {
   body.appendChild(s)
 }
 
-function removePublishScript(formIdNumber) {
+function removePublishScript(formIdNumber, targetId) {
   const src = 'https://sfmta.tfaforms.net/publish/' + formIdNumber
-  document
-    .querySelectorAll('script[data-fa-publish="true"][src="' + src + '"]')
-    .forEach(s => s.parentNode?.removeChild(s))
+  const selector = targetId
+    ? 'script[data-fa-publish="true"][src="' + src + '"][data-qp-target-id="' + targetId + '"]'
+    : 'script[data-fa-publish="true"][src="' + src + '"]'
+  document.querySelectorAll(selector).forEach(s => s.parentNode?.removeChild(s))
 }
 
 /* ===========================
